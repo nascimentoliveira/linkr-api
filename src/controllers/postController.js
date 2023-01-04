@@ -1,18 +1,21 @@
-import { MESSAGES } from '../constants.js';
 import postRepository from '../repositories/postRepository.js';
+import { handleHashtags } from './hashtagsController.js';
+import { MESSAGES } from '../constants.js';
 
 export async function newPost(req, res) {
 
   const { url, text } = req.body;
 
   try {
-    await postRepository.insertUrl(url);
-    const [row] = (await postRepository.getUrlId(url)).rows;
-    await postRepository.createPost(1, row.id, text || '');
-    res.status(201).send({ message: 'Publicação criada com sucesso!' });
+
+    const urlRegistered = (await postRepository.insertUrl(url)).rows[0] || (await postRepository.getUrlId(url)).rows[0];
+    const [post] = (await postRepository.createPost(1, urlRegistered.id, text || '')).rows;
+    handleHashtags(text || '', post.id);
+    res.status(201).send({ message: 'Link publicado com sucesso!' });
 
   } catch (err) {
     console.error(MESSAGES.INTERNAL_SERVER_ERROR, err);
-    res.status(500).send({ message: MESSAGES.CLIENT_SERVER_ERROR });
+    res.status(500).send({ message: 'Houve um erro ao publicar seu link!' });
   }
 }
+
