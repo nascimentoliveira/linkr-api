@@ -8,8 +8,10 @@ async function insertUrl(url) {
       $1
     WHERE
       NOT EXISTS (
-        SELECT url FROM urls WHERE url=$1
-      );`, 
+        SELECT url, id FROM urls WHERE url=$1
+      )
+    RETURNING 
+      id;`,
     [url]
   );
 }
@@ -20,7 +22,7 @@ async function getUrlId(url) {
       id
     FROM
       urls
-    WHERE url=$1`, 
+    WHERE url=$1;`,
     [url]
   );
 }
@@ -28,10 +30,11 @@ async function getUrlId(url) {
 async function createPost(userId, urlId, text) {
   return db.query(`
     INSERT INTO 
-      posts 
-      ("userId", "urlId", "text")
+      posts("userId", "urlId", "text")
     VALUES 
-      ($1, $2, $3);`,
+      ($1, $2, $3)
+    RETURNING 
+      id;`,
     [userId, urlId, text]
   );
 }
