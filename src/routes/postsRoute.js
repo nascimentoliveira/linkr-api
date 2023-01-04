@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import validateSchema from '../middlewares/schemaValidator.js';
 import postSchema from '../schemas/postSchema.js';
-import { newPost } from '../controllers/postController.js';
+import { fetchTimelineData, newPost } from '../controllers/postController.js';
 
 const router = Router();
 
@@ -11,5 +11,7 @@ router.post(
   validateSchema(postSchema),
   newPost
 );
+
+router.get('/timeline',fetchTimelineData)
 
 export default router;

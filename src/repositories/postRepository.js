@@ -36,10 +36,17 @@ async function createPost(userId, urlId, text) {
   );
 }
 
+async function fetchData(){
+  return db.query(`
+    SELECT * FROM posts ORDER BY "createdAt" DESC LIMIT 20 
+  `)
+}
+
 const postRepository = {
   insertUrl,
   getUrlId,
-  createPost
+  createPost,
+  fetchData
 };
 
 export default postRepository;
