@@ -9,7 +9,7 @@ export async function newPost(req, res) {
     await postRepository.insertUrl(url);
     const [row] = (await postRepository.getUrlId(url)).rows;
     await postRepository.createPost(1, row.id, text || '');
-    res.status(201).send({ message: 'Publicação criada com sucesso!' });
+    res.status(201).send({ message: 'Link publicado com sucesso!' });
 
   } catch (err) {
     console.error(MESSAGES.INTERNAL_SERVER_ERROR, err);
