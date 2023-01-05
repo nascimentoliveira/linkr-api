@@ -1,16 +1,11 @@
-import joi from "joi";
+import { Router } from "express";
+import { authValidator } from "../middlewares/authMiddleware.js";
+import { signInSchema, signUpSchema } from "../schemas/authSchema.js";
+import { signUp, signIn} from "../controllers/authController.js";
 
-export const signUpSchema = joi.object({
-    email: joi.string().email().required(),
-    password: joi.string().required(),
-    username: joi.string().required(),
-    picture: joi
-        .string()
-        .pattern(new RegExp(".(jpg|jpeg|png|webp|avif|gif|svg)$"))
-        .required(),
-});
+const router = Router();
 
-export const signInSchema = joi.object({
-    email: joi.string().email().required(),
-    password: joi.string().required(),
-});
+router.post("/signup", authValidator(signUpSchema), signUp);
+router.post("/", authValidator(signInSchema), signIn);
+
+export default router;
