@@ -39,10 +39,29 @@ async function createPost(userId, urlId, text) {
   );
 }
 
+async function fetchData(){
+  return db.query(`
+    SELECT 
+      posts.text, 
+      urls.url,
+      users.username,
+      users.picture  
+    FROM posts 
+      JOIN urls ON 
+        posts."urlId" = urls.id
+      JOIN users ON 
+        posts."userId" = users.id
+      ORDER BY posts."createdAt" DESC LIMIT 20 
+  `)
+}
+ 
+
+
 const postRepository = {
   insertUrl,
   getUrlId,
-  createPost
+  createPost,
+  fetchData
 };
 
 export default postRepository;
