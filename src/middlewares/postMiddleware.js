@@ -1,4 +1,5 @@
 import postRepository from "../repositories/postRepository.js";
+import { MESSAGES } from "../constants.js";
 
 export async function fetchData(req, res, next) {
   try {
