@@ -28,10 +28,21 @@ async function getLikes(){
     FROM likes;`);
 }
 
+async function getLikesId(id){
+    return db.query(`
+    SELECT likes.id, likes."postId", users.username, likes."userId"
+    FROM likes
+    JOIN users ON users.id = likes."userId"
+    WHERE likes."postId" = $1`, 
+    [id]);
+}
+
 const likesRepository = {
     likePost,
     dislikePost,
     countLikes,
     getLikes,
+    getLikesId,
 }
+
 export default likesRepository;

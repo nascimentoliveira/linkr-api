@@ -52,3 +52,14 @@ export async function getLikes(req, res) {
     return res.sendStatus(422);
   }
 }
+
+export async function getLikesId(req, res) {
+  const { id } = req.params;
+  try {
+    const likes = await likesRepository.getLikesId(id); 
+    return res.status(200).send(likes.rows);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(422);
+  }
+}
