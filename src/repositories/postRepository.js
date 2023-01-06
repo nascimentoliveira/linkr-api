@@ -42,7 +42,7 @@ async function createPost(userId, urlId, text) {
 async function fetchData(){
   return db.query(`
     SELECT 
-      posts.text, 
+      posts.text, posts.id,
       urls.url,
       users.username,
       users.picture  
