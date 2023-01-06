@@ -2,11 +2,11 @@ import likesRepository from "../repositories/likesRepository.js";
 
 export async function likePost(req, res) {
   const { user } = res.locals;
-  const { postId } = req.body;
+  const { id } = req.params;
   const userId = 1;
   // const userId = user.id;
   try {
-    await likesRepository.likePost(userId, postId); //userId, postId
+    await likesRepository.likePost(userId, id); //userId, postId
     return res.sendStatus(200);
   } catch (e) {
     console.log(e);
