@@ -4,3 +4,7 @@ export const MESSAGES = {
   FORMAT_ERROR: 'Body não tem o formato esperado!',
   FETCH_POSTS_ERROR: 'An error occured while trying to fetch the posts, please refresh the page',
 };
+
+export const ROUNDS_ENCRYPT = 10;
+
+export const TOKEN_EXPIRE = '30d';
