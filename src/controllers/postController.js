@@ -24,19 +24,13 @@ export async function newPost(req, res) {
 export async function fetchMetadata(req, res) {
   const { data } = res.locals;
   try {
-    const treatedData = [];
-    for (let i = 0; i < data.length; i++) {
-      const { url } = data[i];
-      await urlMetadata(url)
-        .then((metadata) => {
-          const { title, description, image } = metadata;
-          treatedData.push({ ...data[i], title, description, image });
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
-        });
-    }
+    const promises = [];
+    data.map((d) => promises.push(urlMetadata(d.url)));
+    const metadatas = await Promise.all(promises);
+    const treatedData = data.map((d, i) => {
+      const { title, image, description } = metadatas[i];
+      return { ...d, title, image, description };
+    });
     res.status(200).send(treatedData);
   } catch (err) {
     console.log(err);
