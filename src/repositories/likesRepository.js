@@ -4,12 +4,12 @@ async function likePost(userId, postId){
     return db.query(`
     INSERT INTO likes ("userId", "postId") 
     VALUES ($1, $2)`,
-        [userId, postId]);
+    [userId, postId]);
 }
 
 async function dislikePost(userId, postId){
     return db.query(`
-    DELETE FROM like 
+    DELETE FROM likes 
     WHERE "userId" = $1 AND "postId" = $2`,
     [userId, postId]);
 }
@@ -17,7 +17,7 @@ async function dislikePost(userId, postId){
 async function countLikes(id){
     return db.query(`
     SELECT COUNT (likes."postId") 
-    FROM like 
+    FROM likes 
     WHERE likes."postId" = $1`,
     [id]);
 }

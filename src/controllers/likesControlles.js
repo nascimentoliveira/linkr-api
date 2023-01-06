@@ -3,7 +3,8 @@ import likesRepository from "../repositories/likesRepository.js";
 export async function likePost(req, res) {
   const { user } = res.locals;
   const { postId } = req.body;
-  const userId = user.id;
+  const userId = 1;
+  // const userId = user.id;
   try {
     await likesRepository.likePost(userId, postId); //userId, postId
     return res.sendStatus(200);
@@ -16,9 +17,10 @@ export async function likePost(req, res) {
 export async function dislikePost(req, res) {
   const { user } = res.locals; //userId, postId
   const { id } = req.params;
-  const userId = user.id;
+  // const userId = user.id;
+  const userId = 1;
   try {
-    await likesRepository.dislikePost(1, 1); //userId, id
+    await likesRepository.dislikePost(userId, id); //userId, id
     return res.sendStatus(200);
   } catch (e) {
     console.log(e);
