@@ -37,7 +37,7 @@ export async function signIn(req, res) {
 
   try {
 
-    const [session] = (await authRepository.newSession(id, email)).rows;
+    const [session] = (await authRepository.newSession(id)).rows;
     const token = jwt.sign(
       { session },
       process.env.JWT_SECRET,
