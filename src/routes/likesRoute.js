@@ -5,7 +5,7 @@ import { likePost, dislikePost, countLikes } from "../controllers/likesControlle
 const likesRouter = Router();
 likesRouter.post("/likes", likePost);
 likesRouter.delete("/likes/:id", dislikePost);
-likesRouter.get("/likes/count", countLikes);
+likesRouter.get("/likes/count/:id", countLikes);
 
 
 export default likesRouter;
