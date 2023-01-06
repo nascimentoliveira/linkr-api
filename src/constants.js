@@ -1,7 +1,7 @@
 export const MESSAGES = {
   INTERNAL_SERVER_ERROR: 'An error has occurred:',
-  CLIENT_SERVER_ERROR: 'Não foi possível processar a sua solicitação.',
-  FORMAT_ERROR: 'Body não tem o formato esperado!',
+  CLIENT_SERVER_ERROR: 'We were unable to process your request.',
+  FORMAT_ERROR: 'Body is not the expected format!',
   FETCH_POSTS_ERROR: 'An error occured while trying to fetch the posts, please refresh the page',
 };
 

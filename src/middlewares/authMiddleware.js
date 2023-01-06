@@ -12,7 +12,7 @@ export async function signUpValid(req, res, next) {
     const [user] = (await authRepository.getUserByEmail(email)).rows;
 
     if (user) {
-      res.status(409).send({ message: 'E-mail já cadastrado!' });
+      res.status(409).send({ message: 'E-mail already registered!' });
       return;
     }
 
@@ -35,12 +35,12 @@ export async function signInValid(req, res, next) {
     const [user] = (await authRepository.getUserByEmail(email)).rows;
 
     if (!user) {
-      res.status(401).send({ message: 'Usuário não cadastrado!' });
+      res.status(401).send({ message: 'User not registered!' });
       return;
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
-      res.status(401).send({ message: 'Senha inválida!' });
+      res.status(401).send({ message: 'Invalid password!' });
       return;
     }
 
@@ -61,7 +61,7 @@ export async function tokenValid(req, res, next) {
   const token = authorization?.replace('Bearer ', '');
 
   if (!token) {
-    res.status(401).send({ message: 'Formato de cabeçalho inesperado! Campo "Authorization" não encontrado.' });
+    res.status(401).send({ message: 'Unexpected header format! Field "Authorization" not found.' });
     return;
   }
 
@@ -71,7 +71,7 @@ export async function tokenValid(req, res, next) {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, result) => {
       if (err) {
-        res.status(401).send({ message: 'Token inválido, entre novamente com sua conta!' });
+        res.status(401).send({ message: 'Invalid token, enter your account!' });
         return;
       } else {
         sessionId = result.session.id;
@@ -81,7 +81,7 @@ export async function tokenValid(req, res, next) {
     const [user] = (await authRepository.getUserBySession(sessionId)).rows;
 
     if (!user) {
-      res.status(404).send({ message: 'Usuário não encontrado!' });
+      res.status(404).send({ message: 'User not found!' });
       return;
     }
 

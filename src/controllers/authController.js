@@ -23,7 +23,7 @@ export async function signUp(req, res) {
       picture.trim()
     );
 
-    res.status(201).send({ message: 'Usuário criado com sucesso!' });
+    res.status(201).send({ message: 'User successfully created!' });
 
   } catch (error) {
     console.error(MESSAGES.INTERNAL_SERVER_ERROR, error);
