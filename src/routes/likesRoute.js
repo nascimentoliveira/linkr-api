@@ -4,7 +4,7 @@ import { likePost, dislikePost, countLikes } from "../controllers/likesControlle
 
 const likesRouter = Router();
 likesRouter.post("/likes/:id", likePost);
-likesRouter.delete("/likes/:id", dislikePost);
+likesRouter.delete("/dislikes/:id", dislikePost);
 likesRouter.get("/likes/count/:id", countLikes);
 
 
