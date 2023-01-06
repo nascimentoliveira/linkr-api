@@ -49,43 +49,17 @@ SELECT
   posts.id,
   urls.url, 
   users.username,
-  users.picture,
-  (SELECT COUNT(likes."postId") FROM likes WHERE
-  posts.id = likes."postId") AS likes
+  users.picture
 FROM posts
-  
   JOIN urls ON 
     posts."urlId" = urls.id
   JOIN users ON 
     posts."userId" = users.id
-
   ORDER BY posts."createdAt" 
-  
-  DESC LIMIT 20 
+    DESC LIMIT 20 
   `);
 }
 
-
-
-    //   SELECT 
-    //   posts.text, 
-    //   posts.id,
-    //   urls.url,
-    //   users.username,
-    //   users.picture,
-    //   COUNT(likes."postId") AS likes 
-    // FROM posts 
-    //   JOIN urls ON 
-    //     posts."urlId" = urls.id
-    //   JOIN users ON 
-    //     posts."userId" = users.id
-    //   JOIN likes ON 
-    //     posts.id = likes."postId"
-    //   GROUP BY posts.id
-      
-    //   ORDER BY posts."createdAt" 
-      
-    //   DESC LIMIT 20 
 
 async function fetchUserData(id) {
   return db.query(
