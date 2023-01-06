@@ -43,7 +43,3 @@ export async function fetchMetadata(req, res) {
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
   }
 }
-
-export async function fetchUserData(req,res){
-  
-}

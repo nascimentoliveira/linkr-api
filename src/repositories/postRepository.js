@@ -54,6 +54,23 @@ async function fetchData(){
       ORDER BY posts."createdAt" DESC LIMIT 20 
   `)
 }
+
+async function fetchUserData(id){
+  return db.query(`
+  SELECT 
+  posts.text, 
+  urls.url,
+  users.username,
+  users.picture  
+FROM posts 
+  JOIN urls ON 
+    posts."urlId" = urls.id
+  JOIN users ON 
+    posts."userId" = users.id
+WHERE users.id = $1
+  ORDER BY posts."createdAt" DESC LIMIT 20 
+  `,[id])
+}
  
 
 
@@ -61,7 +78,8 @@ const postRepository = {
   insertUrl,
   getUrlId,
   createPost,
-  fetchData
+  fetchData,
+  fetchUserData
 };
 
 export default postRepository;
