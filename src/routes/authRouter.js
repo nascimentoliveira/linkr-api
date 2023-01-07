@@ -7,6 +7,6 @@ import { signInValid, signUpValid } from '../middlewares/authMiddleware.js';
 const router = Router();
 
 router.post('/signup', validateSchema(signUpSchema), signUpValid, signUp);
-router.post('/signin', validateSchema(signInSchema), signInValid, signIn);
+router.post('/', validateSchema(signInSchema), signInValid, signIn);
 
 export default router;
