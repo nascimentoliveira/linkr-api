@@ -92,4 +92,6 @@ export async function tokenValid(req, res, next) {
     res.status(500).send({ message: MESSAGES.CLIENT_SERVER_ERROR });
     return;
   }
+
+  next();
 }

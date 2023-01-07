@@ -5,19 +5,20 @@ import urlMetadata from 'url-metadata';
 
 export async function newPost(req, res) {
   const { url, text } = req.body;
+  const user = res.locals.user;
 
   try {
     const urlRegistered =
       (await postRepository.insertUrl(url)).rows[0] ||
       (await postRepository.getUrlId(url)).rows[0];
     const [post] = (
-      await postRepository.createPost(1, urlRegistered.id, text || '')
+      await postRepository.createPost(user.id, urlRegistered.id, text || '')
     ).rows;
     handleHashtags(text || '', post.id);
     res.status(201).send({ message: 'Link published successfully!' });
   } catch (err) {
     console.error(MESSAGES.INTERNAL_SERVER_ERROR, err);
-    res.status(500).send({ message: MESSAGES.CLIENT_SERVER_ERROR });
+    res.status(500).send({ message: 'There was an error publishing your link!' });
   }
 }
 
