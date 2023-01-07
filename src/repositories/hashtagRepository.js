@@ -29,10 +29,30 @@ async function registerPostHashtags(postId, hashtagsIds) {
   );
 }
 
+async function getTopHashtags() {
+  return db.query(`
+    SELECT 
+      h.id, h.hashtag
+    FROM
+      "postsHashtags" AS ph
+    JOIN 
+      "hashtags" AS h
+    ON
+      ph."hashtagId"=h.id
+    GROUP BY
+      ph."hashtagId", h.hashtag, h.id
+    ORDER BY 
+      COUNT(ph."postId")
+    DESC
+    LIMIT 10;`
+  );
+}
+
 const hashtagRepository = {
   getAllHashtags,
   insertHashtags,
-  registerPostHashtags
+  registerPostHashtags,
+  getTopHashtags
 };
 
 export default hashtagRepository;
