@@ -49,7 +49,8 @@ SELECT
   posts.id,
   urls.url, 
   users.username,
-  users.picture
+  users.picture,
+  users.id AS "userId"
 FROM posts
   JOIN urls ON 
     posts."urlId" = urls.id
@@ -69,7 +70,8 @@ async function fetchUserData(id) {
   posts.text, 
   urls.url,
   users.username,
-  users.picture  
+  users.picture,
+  users.id AS "userId" 
 FROM posts 
   JOIN urls ON 
     posts."urlId" = urls.id

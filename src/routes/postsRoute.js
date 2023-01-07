@@ -3,15 +3,15 @@ import { Router } from "express";
 import validateSchema from "../middlewares/schemaValidator.js";
 import postSchema from "../schemas/postSchema.js";
 import { fetchData, fetchUserData } from "../middlewares/postMiddleware.js";
-import { tokenValid } from "../middlewares/authMiddleware.js";
 import { fetchMetadata, newPost } from "../controllers/postController.js";
+import { tokenValid } from "../middlewares/authMiddleware.js";
 
-const router = Router();
+const postRouter = Router();
 
-router.post("/posts", tokenValid, validateSchema(postSchema), newPost);
+postRouter.post("/posts",tokenValid, validateSchema(postSchema), newPost);
 
-router.get("/timeline", fetchData, fetchMetadata);
+postRouter.get("/timeline",  fetchData, fetchMetadata);
 
-router.get("/user/:id", fetchUserData, fetchMetadata);
+postRouter.get("/user/:id", fetchUserData, fetchMetadata);
 
-export default router;
+export default postRouter;
