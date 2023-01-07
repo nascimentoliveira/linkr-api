@@ -35,7 +35,7 @@ export async function signInValid(req, res, next) {
     const [user] = (await authRepository.getUserByEmail(email)).rows;
 
     if (!user) {
-      res.status(401).send({ message: 'User not registered!' });
+      res.status(404).send({ message: 'User not registered!' });
       return;
     }
 
