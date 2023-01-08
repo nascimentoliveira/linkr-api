@@ -84,11 +84,11 @@ WHERE users.id = $1
   );
 }
 
-async function deletePost(userId, urlId){
+async function deletePost(userId, Id){
   return db.query(`
   DELETE FROM posts 
-  WHERE "userId" = $1 AND "urlId" = $2;`,
-  [userId, urlId]);
+  WHERE "userId" = $1 AND "id" = $2;`,
+  [userId, Id]);
 } 
 
 // async function editPost(userId, urlId){
