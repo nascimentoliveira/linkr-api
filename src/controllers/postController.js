@@ -45,8 +45,12 @@ export async function deletePost(req, res) {
   const user = res.locals.user;
   const { id } = req.params;
   const userId = user.id;
+  const postId = id
   console.log(userId, id);
   try {
+    if(!postId) {
+      return res.sendStatus(400)
+    }
     await postRepository.deletePost(userId, id);
     res.sendStatus(200);
   } catch (error) {
@@ -60,9 +64,7 @@ export async function editPost(req, res) {
   const { id } = req.params;
   const { text } = req.body;
   const userId = user.id;
-
   try {
-    // const url = await postRepository.getUrl(userId, id);
     await postRepository.editPost(text, userId, id);
     res.sendStatus(200);
   } catch (error) {
