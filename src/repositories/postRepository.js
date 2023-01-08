@@ -84,12 +84,27 @@ WHERE users.id = $1
   );
 }
 
+async function deletePost(userId, urlId){
+  return db.query(`
+  DELETE FROM posts 
+  WHERE "userId" = $1 AND "urlId" = $2;`,
+  [userId, urlId]);
+} 
+
+// async function editPost(userId, urlId){
+//   return db.query(`
+//   DELETE FROM posts 
+//   WHERE "userId" = $1 AND "urlId" = $2;`,
+//   [userId, postId]);
+// }
+
 const postRepository = {
   insertUrl,
   getUrlId,
   createPost,
   fetchData,
   fetchUserData,
+  deletePost,
 };
 
 export default postRepository;

@@ -38,3 +38,17 @@ export async function fetchMetadata(req, res) {
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
   }
 }
+
+export async function deletePost(req, res) {
+  const user = res.locals.user; 
+  const { id } = req.params;
+  const userId = user.id;
+  console.log(userId, id)
+  try {
+      await postRepository.deletePost(userId, id);
+      res.sendStatus(200);
+  } catch (error) {
+    console.log(error)
+      res.sendStatus(500);
+  }
+}
