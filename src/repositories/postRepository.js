@@ -91,12 +91,23 @@ async function deletePost(userId, Id){
   [userId, Id]);
 } 
 
-// async function editPost(userId, urlId){
+// async function getUrl(userId, id){
 //   return db.query(`
-//   DELETE FROM posts 
-//   WHERE "userId" = $1 AND "urlId" = $2;`,
-//   [userId, postId]);
+//   SELECT url
+//   FROM urls
+//   JOIN posts 
+//   ON posts."urldId" = urls.id
+//   WHERE "userId" = $1 AND "id" = $2;`,
+//   [userId, id]);
 // }
+async function editPost(text, userId, id){
+  return db.query(`
+  UPDATE posts 
+  SET text = $1
+  WHERE "userId" = $2 AND "id" = $3;`,
+  [text, userId, id]);
+}
+
 
 const postRepository = {
   insertUrl,
@@ -105,6 +116,7 @@ const postRepository = {
   fetchData,
   fetchUserData,
   deletePost,
+  editPost,
 };
 
 export default postRepository;
