@@ -1,12 +1,11 @@
 import likesRepository from "../repositories/likesRepository.js";
 
 export async function likePost(req, res) {
-  const { user } = res.locals;
+  const user = res.locals.user;
   const { id } = req.params;
-  const userId = 2;
-  // const userId = user.id;
+  const userId = user.id;
   try {
-    await likesRepository.likePost(userId, id); //userId, postId
+    await likesRepository.likePost(userId, id); 
     return res.sendStatus(200);
   } catch (e) {
     console.log(e);
@@ -15,12 +14,11 @@ export async function likePost(req, res) {
 }
 
 export async function dislikePost(req, res) {
-  const { user } = res.locals; //userId, postId
+  const user = res.locals.user; 
   const { id } = req.params;
-  // const userId = user.id;
-  const userId = 2;
+  const userId = user.id;
   try {
-    await likesRepository.dislikePost(userId, id); //userId, id
+    await likesRepository.dislikePost(userId, id); 
     return res.sendStatus(200);
   } catch (e) {
     console.log(e);
@@ -31,7 +29,7 @@ export async function dislikePost(req, res) {
 export async function countLikes(req, res) {
   const { id } = req.params;
   try {
-    const infos = await likesRepository.countLikes(id); //id
+    const infos = await likesRepository.countLikes(id); 
     if (infos.rows.length === 0) {
       return res.status(200).send("0");
     } else {
