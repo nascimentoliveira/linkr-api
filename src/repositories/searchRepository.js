@@ -4,7 +4,8 @@ export default async function searchUser(search){
     return db.query(`
         SELECT 
             picture,
-            username
+            username,
+            id
         FROM 
             users
         WHERE unaccent(username)
