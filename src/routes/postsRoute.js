@@ -1,14 +1,21 @@
 import { Router } from "express";
-
 import validateSchema from "../middlewares/schemaValidator.js";
 import postSchema from "../schemas/postSchema.js";
-import { fetchMetadata, newPost } from "../controllers/postController.js";
-import { fetchData } from "../middlewares/postMiddleware.js";
+import { fetchData, fetchUserData } from "../middlewares/postMiddleware.js";
+import { fetchMetadata, newPost, deletePost, editPost } from "../controllers/postController.js";
+import { tokenValid } from "../middlewares/authMiddleware.js";
 
-const router = Router();
+const postRouter = Router();
 
-router.post("/posts", validateSchema(postSchema), newPost);
+postRouter.post("/posts", tokenValid, validateSchema(postSchema), newPost);
 
-router.get("/timeline", fetchData, fetchMetadata);
+postRouter.get("/timeline", tokenValid ,fetchData, fetchMetadata);
 
-export default router;
+postRouter.get("/user/:id", tokenValid,fetchUserData, fetchMetadata);
+
+postRouter.delete("/deletepost/:id", tokenValid, deletePost);
+
+postRouter.put("/editpost/:id", tokenValid, editPost);
+
+
+export default postRouter;
