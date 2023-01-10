@@ -21,6 +21,71 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: comments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comments (
+    id integer NOT NULL,
+    "postId" integer NOT NULL,
+    "userId" integer NOT NULL,
+    comment text NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.comments_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
+
+
+--
+-- Name: followers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.followers (
+    id integer NOT NULL,
+    "followedId" integer NOT NULL,
+    "followerId" integer NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: followers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.followers_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: followers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.followers_id_seq OWNED BY public.followers.id;
+
+
+--
 -- Name: hashtags; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -180,12 +245,47 @@ ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
+-- Name: shares; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.shares (
+    id integer NOT NULL,
+    "postId" integer NOT NULL,
+    "userId" integer NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: shares_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.shares_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: shares_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.shares_id_seq OWNED BY public.shares.id;
+
+
+--
 -- Name: urls; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.urls (
     id integer NOT NULL,
     url text NOT NULL,
+    title text NOT NULL,
+    image text NOT NULL,
+    description text NOT NULL,
     "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
 
@@ -245,6 +345,20 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
+
+--
+-- Name: followers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.followers ALTER COLUMN id SET DEFAULT nextval('public.followers_id_seq'::regclass);
+
+
+--
 -- Name: hashtags id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -280,6 +394,13 @@ ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.ses
 
 
 --
+-- Name: shares id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shares ALTER COLUMN id SET DEFAULT nextval('public.shares_id_seq'::regclass);
+
+
+--
 -- Name: urls id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -294,6 +415,18 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
+-- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+
+
+--
+-- Data for Name: followers; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+
+
+--
 -- Data for Name: hashtags; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -303,17 +436,13 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: likes; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.likes VALUES (17, 2, 4, '2023-01-07 13:48:48.00305');
 
 
 --
 -- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.posts VALUES (1, 1, 1, 'Github', '2023-01-06 21:27:30.310239');
-INSERT INTO public.posts VALUES (2, 1, 1, 'a', '2023-01-06 22:12:55.669162');
-INSERT INTO public.posts VALUES (3, 2, 1, 'to dev(endo)', '2023-01-06 22:21:58.70501');
-INSERT INTO public.posts VALUES (4, 2, 1, 's', '2023-01-06 22:24:09.639923');
+INSERT INTO public.posts VALUES (1, 1, 10, 'a', '2023-01-10 17:29:36.108938');
 
 
 --
@@ -326,28 +455,41 @@ INSERT INTO public.posts VALUES (4, 2, 1, 's', '2023-01-06 22:24:09.639923');
 -- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.sessions VALUES (1, 1, '2023-01-06 21:03:18.692812');
-INSERT INTO public.sessions VALUES (2, 1, '2023-01-06 21:13:31.3624');
-INSERT INTO public.sessions VALUES (3, 1, '2023-01-06 21:19:00.639425');
-INSERT INTO public.sessions VALUES (4, 1, '2023-01-06 21:22:15.190936');
-INSERT INTO public.sessions VALUES (5, 1, '2023-01-06 21:25:33.067707');
-INSERT INTO public.sessions VALUES (6, 1, '2023-01-06 21:43:45.027245');
-INSERT INTO public.sessions VALUES (7, 2, '2023-01-06 22:21:15.953698');
+INSERT INTO public.sessions VALUES (1, 1, '2023-01-10 16:56:15.088769');
+
+
+--
+-- Data for Name: shares; Type: TABLE DATA; Schema: public; Owner: -
+--
+
 
 
 --
 -- Data for Name: urls; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.urls VALUES (1, 'https://github.com/', '2023-01-06 21:27:30.236508');
+INSERT INTO public.urls VALUES (10, 'https://github.com/', 'GitHub: Let’s build from here', 'https://github.githubassets.com/images/modules/site/social-cards/campaign-social.png', 'GitHub is where over 94 million developers shape the future of software, together. Contribute to the open source community, manage your Git repositories, review code like a pro, track bugs and features, power your CI/CD and DevOps workflows, and secure code before you commit it.', '2023-01-10 17:29:36.106413');
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (1, 'alvaro@linkr.com', '$2b$10$foHjdXZGhrbm7rhpzaNtCePDpNgTEqGAVYq5jRcElyZkQNzSLQRDu', 'alvaro', 'data:image/jpeg;base64,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', '2023-01-06 21:03:08.989633');
-INSERT INTO public.users VALUES (2, 'mariana@linkr.com', '$2b$10$lywgmgx6YETE9HsSFFtqMunKME152t5D.N9H5hge4A2CTdJiG5UBS', 'mari', 'data:image/jpeg;base64,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', '2023-01-06 22:21:06.253618');
+INSERT INTO public.users VALUES (1, 'alvaro@teste.com', '$2b$10$Lv4qasayZq3WBS3sb/ZTPuVvveyUHqEq1X2GIh6HTSU3I04wA.L1S', 'pele', 'data:image/jpeg;base64,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', '2023-01-10 16:56:07.070789');
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.comments_id_seq', 1, false);
+
+
+--
+-- Name: followers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.followers_id_seq', 1, false);
 
 
 --
@@ -361,7 +503,7 @@ SELECT pg_catalog.setval('public.hashtags_id_seq', 1, false);
 -- Name: likes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.likes_id_seq', 17, true);
+SELECT pg_catalog.setval('public.likes_id_seq', 1, false);
 
 
 --
@@ -375,28 +517,51 @@ SELECT pg_catalog.setval('public."postsHashtags_id_seq"', 1, false);
 -- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.posts_id_seq', 4, true);
+SELECT pg_catalog.setval('public.posts_id_seq', 1, true);
 
 
 --
 -- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.sessions_id_seq', 7, true);
+SELECT pg_catalog.setval('public.sessions_id_seq', 1, true);
+
+
+--
+-- Name: shares_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.shares_id_seq', 1, false);
 
 
 --
 -- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.urls_id_seq', 1, true);
+SELECT pg_catalog.setval('public.urls_id_seq', 10, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 2, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
+
+
+--
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: followers followers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.followers
+    ADD CONSTRAINT followers_pkey PRIMARY KEY (id);
 
 
 --
@@ -448,6 +613,14 @@ ALTER TABLE ONLY public.sessions
 
 
 --
+-- Name: shares shares_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shares
+    ADD CONSTRAINT shares_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: urls urls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -477,6 +650,38 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comments comments_fk0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_fk0 FOREIGN KEY ("postId") REFERENCES public.posts(id);
+
+
+--
+-- Name: comments comments_fk1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_fk1 FOREIGN KEY ("userId") REFERENCES public.users(id);
+
+
+--
+-- Name: followers followers_fk0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.followers
+    ADD CONSTRAINT followers_fk0 FOREIGN KEY ("followedId") REFERENCES public.users(id);
+
+
+--
+-- Name: followers followers_fk1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.followers
+    ADD CONSTRAINT followers_fk1 FOREIGN KEY ("followerId") REFERENCES public.users(id);
 
 
 --
@@ -517,6 +722,22 @@ ALTER TABLE ONLY public."postsHashtags"
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_fk0 FOREIGN KEY ("userId") REFERENCES public.users(id);
+
+
+--
+-- Name: shares shares_fk0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shares
+    ADD CONSTRAINT shares_fk0 FOREIGN KEY ("postId") REFERENCES public.posts(id);
+
+
+--
+-- Name: shares shares_fk1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shares
+    ADD CONSTRAINT shares_fk1 FOREIGN KEY ("userId") REFERENCES public.users(id);
 
 
 --

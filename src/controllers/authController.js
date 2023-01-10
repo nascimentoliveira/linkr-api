@@ -22,7 +22,6 @@ export async function signUp(req, res) {
       passwordHash,
       picture.trim()
     );
-
     res.status(201).send({ message: 'User successfully created!' });
 
   } catch (error) {
