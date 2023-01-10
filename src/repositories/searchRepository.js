@@ -8,7 +8,7 @@ export default async function searchUser(search){
             id
         FROM 
             users
-        WHERE unaccent(username)
+        WHERE username
             ILIKE $1
         ORDER BY username
     `,[`${search}%`])

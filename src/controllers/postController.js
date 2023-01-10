@@ -1,16 +1,16 @@
 import postRepository from "../repositories/postRepository.js";
 import { handleHashtags } from "./hashtagsController.js";
 import { MESSAGES } from "../constants.js";
-import urlMetadata from "url-metadata";
 
 export async function newPost(req, res) {
-  const { url, text } = req.body;
-  const user = res.locals.user;
-
+  const { text } = req.body;
+  const { user, metaUrl } = res.locals;
+  const { url, title, image, description } = metaUrl;
   try {
     const urlRegistered =
-      (await postRepository.insertUrl(url)).rows[0] ||
-      (await postRepository.getUrlId(url)).rows[0];
+      (await postRepository.insertUrl(url, title, image, description))
+        .rows[0] ||
+      (await postRepository.getUrlId(url, title, image, description)).rows[0];
     const [post] = (
       await postRepository.createPost(user.id, urlRegistered.id, text || "")
     ).rows;
@@ -21,25 +21,6 @@ export async function newPost(req, res) {
     res
       .status(500)
       .send({ message: "There was an error publishing your link!" });
-  }
-}
-
-export async function fetchMetadata(req, res) {
-  const { data } = res.locals;
-  try {
-    const promises = [];
-    data.map(({ url }) => {
-      promises.push(urlMetadata(url));
-    });
-    const metadatas = await Promise.all(promises);
-    const treatedData = data.map((d, i) => {
-      const { title, image, description } = metadatas[i];
-      return { ...d, title, image, description };
-    });
-    res.status(200).send(treatedData);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
   }
 }
 
@@ -72,5 +53,30 @@ export async function editPost(req, res) {
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
+  }
+}
+
+export async function fetchData(req, res) {
+  try {
+    const { rows } = await postRepository.fetchData();
+    if (rows.length === 0)
+      return res.status(204).send({ message: "There are no posts yet" });
+    res.status(200).send(rows)
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
+  }
+}
+
+export async function fetchUserData(req, res, next) {
+  const { id } = req.params;
+  try {
+    const { rows } = await postRepository.fetchUserData(id);
+    if (rows.length === 0)
+      return res.status(204).send({ message: "There are no posts yet" });
+    res.status(200).send(rows)
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
   }
 }

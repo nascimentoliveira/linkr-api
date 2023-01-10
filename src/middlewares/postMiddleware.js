@@ -1,12 +1,13 @@
-import postRepository from "../repositories/postRepository.js";
+import urlMetadata from "url-metadata";
 import { MESSAGES } from "../constants.js";
 
-export async function fetchData(req, res, next) {
+
+export async function fetchMetadata(req, res, next) {
+  const { url } = req.body;
   try {
-    const { rows } = await postRepository.fetchData();
-    if (rows.length === 0)
-      return res.status(204).send({ message: "There are no posts yet" });
-    res.locals.data = rows;
+    const { title, image, description } = await urlMetadata(url);
+    const metaUrl = { url, title, image, description };
+    res.locals.metaUrl = metaUrl;
     next();
   } catch (err) {
     console.log(err);
@@ -14,16 +15,4 @@ export async function fetchData(req, res, next) {
   }
 }
 
-export async function fetchUserData(req,res,next){
-  const {id} = req.params;
-  try{
-    const {rows} = await postRepository.fetchUserData(id);
-    if (rows.length === 0) return res.status(204).send({message:"There are no posts yet"});
-    res.locals.data = rows;
-    next()
-  } catch(err){
-    console.log(err);
-    res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
-  }
-}
 

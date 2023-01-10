@@ -1,19 +1,19 @@
 import db from "../database/db.js";
 
-async function insertUrl(url) {
+async function insertUrl(url, title, image, description) {
   return db.query(
     `
     INSERT INTO 
-      urls ("url")
+      urls (url, title, image, description)
     SELECT 
-      $1
+      $1, $2, $3, $4
     WHERE
       NOT EXISTS (
         SELECT url, id FROM urls WHERE url=$1
       )
     RETURNING 
       id;`,
-    [url]
+    [url, title, image, description]
   );
 }
 
@@ -47,7 +47,10 @@ async function fetchData() {
 SELECT 
   posts.text, 
   posts.id,
-  urls.url, 
+  urls.url,
+  urls.title,
+  urls.image,
+  urls.description, 
   users.username,
   users.picture,
   users.id AS "userId"
@@ -68,6 +71,9 @@ async function fetchUserData(id) {
   posts.id,
   posts.text, 
   urls.url,
+  urls.title,
+  urls.image,
+  urls.description,
   users.username,
   users.picture,
   users.id AS "userId" 
@@ -83,19 +89,23 @@ WHERE users.id = $1
   );
 }
 
-async function deletePost(userId, Id){
-  return db.query(`
+async function deletePost(userId, Id) {
+  return db.query(
+    `
   DELETE FROM posts 
   WHERE "userId" = $1 AND "id" = $2;`,
-  [userId, Id]);
-} 
+    [userId, Id]
+  );
+}
 
-async function editPost(text, userId, id){
-  return db.query(`
+async function editPost(text, userId, id) {
+  return db.query(
+    `
   UPDATE posts 
   SET text = $1
   WHERE "userId" = $2 AND "id" = $3;`,
-  [text, userId, id]);
+    [text, userId, id]
+  );
 }
 
 const postRepository = {
