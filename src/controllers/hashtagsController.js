@@ -39,16 +39,3 @@ export async function topHashtag(req, res) {
   }
 }
 
-export async function hashtagPosts(req, res) {
-
-  const { id } = res.locals.hashtagId;
-
-  try {
-    const hashtagPosts = (await hashtagRepository.getHashtagPosts(id)).rows;
-    res.status(200).send(hashtagPosts);
-
-  } catch (err) {
-    console.error(MESSAGES.INTERNAL_SERVER_ERROR, err);
-    res.status(500).send({ message: MESSAGES.CLIENT_SERVER_ERROR });
-  }
-}

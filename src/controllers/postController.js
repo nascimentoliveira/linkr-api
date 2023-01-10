@@ -28,7 +28,9 @@ export async function fetchMetadata(req, res) {
   const { data } = res.locals;
   try {
     const promises = [];
-    data.map((d) => promises.push(urlMetadata(d.url)));
+    data.map(({ url }) => {
+      promises.push(urlMetadata(url));
+    });
     const metadatas = await Promise.all(promises);
     const treatedData = data.map((d, i) => {
       const { title, image, description } = metadatas[i];
@@ -45,11 +47,11 @@ export async function deletePost(req, res) {
   const user = res.locals.user;
   const { id } = req.params;
   const userId = user.id;
-  const postId = id
+  const postId = id;
   console.log(userId, id);
   try {
-    if(!postId) {
-      return res.sendStatus(400)
+    if (!postId) {
+      return res.sendStatus(400);
     }
     await postRepository.deletePost(userId, id);
     res.sendStatus(200);
