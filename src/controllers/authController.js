@@ -32,7 +32,7 @@ export async function signUp(req, res) {
 
 export async function signIn(req, res) {
 
-  const { id, email, username, picture } = res.locals.user;
+  const { id, username, picture } = res.locals.user;
 
   try {
 

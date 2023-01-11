@@ -21,9 +21,19 @@ async function unfollow(followed, follower) {
     [followed, follower]
   );
 }
-const followRepository = {
-    follow,
-    unfollow
-}
 
-export default followRepository 
+async function checkFollow(followed, follower) {
+  return db.query(
+    `
+        SELECT id FROM followers WHERE "followedId" = $1 AND "followerId" = $2
+    `,
+    [followed, follower]
+  );
+}
+const followRepository = {
+  follow,
+  unfollow,
+  checkFollow,
+};
+
+export default followRepository;
