@@ -49,7 +49,7 @@ export async function editPost(req, res) {
   const userId = user.id;
   try {
     await postRepository.editPost(text, userId, id);
-    res.sendStatus(200);
+    res.status(200).send(text);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
