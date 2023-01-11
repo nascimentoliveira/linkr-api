@@ -61,7 +61,7 @@ export async function fetchData(req, res) {
     const { rows } = await postRepository.fetchData();
     if (rows.length === 0)
       return res.status(204).send({ message: "There are no posts yet" });
-    res.status(200).send(rows)
+    res.status(200).send(rows);
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
@@ -70,11 +70,12 @@ export async function fetchData(req, res) {
 
 export async function fetchUserData(req, res, next) {
   const { id } = req.params;
+  const { follows } = res.locals;
   try {
     const { rows } = await postRepository.fetchUserData(id);
     if (rows.length === 0)
       return res.status(204).send({ message: "There are no posts yet" });
-    res.status(200).send(rows)
+    res.status(200).send({ posts: rows, follows });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
