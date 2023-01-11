@@ -45,6 +45,7 @@ export async function signIn(req, res) {
 
     res.status(200).send({
       token: token,
+      userId: id,
       username: username,
       picture: picture
     });
