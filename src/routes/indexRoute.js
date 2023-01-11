@@ -4,7 +4,7 @@ import postsRouter from './postsRoute.js';
 import authRouter from './authRouter.js';
 import likesRouter from './likesRoute.js';
 import hashtagRouter from './hashtagRoute.js';
-import searchRouter from './searchRoutes.js';
+import searchRouter from './searchRoute.js';
 
 const router = Router();
 router.use(authRouter);

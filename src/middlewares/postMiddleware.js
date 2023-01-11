@@ -15,4 +15,14 @@ export async function fetchMetadata(req, res, next) {
   }
 }
 
+export default async function checkFollow(req,res,next){
+    const {email} = res.locals.user;
+    const {id} = req.params;
+    try{
+      
+    } catch (err){
+      console.log(err);
+      res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
+    }
+}
 
