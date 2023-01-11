@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import { tokenValid } from '../middlewares/authMiddleware.js';
-import { topHashtag } from '../controllers/hashtagsController.js';
-import { hashtagPosts, hashtagValid } from '../middlewares/hashtagMiddleware.js';
-
+import { topHashtag, hashtagPosts } from '../controllers/hashtagsController.js';
+import { hashtagValid } from '../middlewares/hashtagMiddleware.js';
 
 const router = Router();
 

@@ -67,7 +67,10 @@ async function getHashtagPosts(hashtagId) {
     SELECT 
       posts.text, 
       posts.id,
-      urls.url, 
+      urls.url,
+      urls.title,
+      urls.image,
+      urls.description, 
       users.username,
       users.picture,
       users.id AS "userId"
@@ -87,8 +90,9 @@ async function getHashtagPosts(hashtagId) {
       "postsHashtags"."postId" = posts.id
     WHERE
       "postsHashtags"."hashtagId"=$1
-    ORDER BY posts."createdAt" 
-      DESC 
+    ORDER BY 
+      posts."createdAt" 
+    DESC 
     LIMIT 
       20`,
     [hashtagId]
