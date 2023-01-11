@@ -11,3 +11,4 @@ export default async function searchUsers(req,res){
         res.status(500).send({message: MESSAGES.FETCH_USERS_ERROR})
     }
 }
+
