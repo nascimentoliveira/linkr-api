@@ -15,7 +15,7 @@ export async function fetchMetadata(req, res, next) {
   }
 }
 
-export default async function checkFollow(req,res,next){
+export async function checkFollow(req,res,next){
     const {email} = res.locals.user;
     const {id} = req.params;
     try{
