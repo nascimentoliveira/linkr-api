@@ -42,8 +42,9 @@ async function createPost(userId, urlId, text) {
   );
 }
 
-async function fetchData() {
-  return db.query(`
+async function fetchData(id) {
+  return db.query(
+    `
 SELECT 
   posts.text, 
   posts.id,
@@ -59,9 +60,14 @@ FROM posts
     posts."urlId" = urls.id
   JOIN users ON 
     posts."userId" = users.id
+  LEFT JOIN followers ON 
+    followers."followedId" = users.id
+WHERE followers."followerId" = $1 OR users.id = $1
   ORDER BY posts."createdAt" 
     DESC LIMIT 20 
-  `);
+  `,
+    [id]
+  );
 }
 
 async function fetchUserData(id) {
