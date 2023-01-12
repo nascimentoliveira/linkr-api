@@ -1,4 +1,4 @@
-import db from "../database/db.js";
+import db from '../database/db.js';
 
 async function insertUrl(url, title, image, description) {
   return db.query(
@@ -42,31 +42,42 @@ async function createPost(userId, urlId, text) {
   );
 }
 
-async function fetchData(id) {
-  return db.query(
-    `
-SELECT 
-  posts.text, 
-  posts.id,
-  urls.url,
-  urls.title,
-  urls.image,
-  urls.description, 
-  users.username,
-  users.picture,
-  users.id AS "userId"
-FROM posts
-  JOIN urls ON 
-    posts."urlId" = urls.id
-  JOIN users ON 
-    posts."userId" = users.id
-  LEFT JOIN followers ON 
-    followers."followedId" = users.id
-WHERE followers."followerId" = $1 OR users.id = $1
-  ORDER BY posts."createdAt" 
-    DESC LIMIT 20 
-  `,
-    [id]
+async function fetchData(id, page, offset) {
+  return db.query(`
+    SELECT 
+      posts.text, 
+      posts.id,
+      urls.url,
+      urls.title,
+      urls.image,
+      urls.description, 
+      users.username,
+      users.picture,
+      users.id AS "userId"
+    FROM 
+      posts
+    JOIN 
+      urls 
+    ON 
+      posts."urlId" = urls.id
+    JOIN 
+      users 
+    ON 
+      posts."userId" = users.id
+    LEFT JOIN 
+      followers 
+    ON 
+      followers."followedId" = users.id
+    WHERE 
+      followers."followerId"=$1 OR users.id=$1
+    ORDER BY 
+      posts."createdAt" 
+    DESC
+    OFFSET
+      $2 
+    LIMIT 
+      $3`,
+    [id, page * offset, offset ]
   );
 }
 
@@ -89,7 +100,7 @@ FROM posts
   JOIN users ON 
     posts."userId" = users.id
 WHERE users.id = $1
-  ORDER BY posts."createdAt" DESC LIMIT 20 
+  ORDER BY posts."createdAt" DESC LIMIT 10 
   `,
     [id]
   );

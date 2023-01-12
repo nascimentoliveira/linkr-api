@@ -42,9 +42,11 @@ export async function topHashtag(req, res) {
 export async function hashtagPosts(req, res, next) {
 
   const { id } = res.locals.hashtagId;
+  const page = req.query.page;
+  const offset = req.query.offset;  
 
   try {
-    const hashtagPosts = (await hashtagRepository.getHashtagPosts(id)).rows;
+    const hashtagPosts = (await hashtagRepository.getHashtagPosts(id, page, offset)).rows;
     res.status(200).send(hashtagPosts);
 
   } catch (err) {

@@ -57,11 +57,11 @@ export async function editPost(req, res) {
 }
 
 export async function fetchData(req, res) {
-  const {id} = res.locals.user;
+  const { id } = res.locals.user;
+  const page = req.query.page;
+  const offset = req.query.offset;
   try {
-    const { rows } = await postRepository.fetchData(id);
-    if (rows.length === 0)
-      return res.status(204).send({ message: "There are no posts yet" });
+    const { rows } = await postRepository.fetchData(id, page, offset);
     res.status(200).send(rows);
   } catch (err) {
     console.log(err);
