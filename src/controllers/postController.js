@@ -63,7 +63,7 @@ export async function fetchData(req, res) {
   try {
     const { rows } = await postRepository.fetchData(id, page, offset);
     if (rows.length === 0) {
-      res.status(200).send({ message: "There are no posts yet" });
+      res.status(200).send({ rows: rows, message: "There are no posts yet" });
       return;
     }
     res.status(200).send(rows);
@@ -79,11 +79,11 @@ export async function fetchUserData(req, res, next) {
   const offset = req.query.offset;
   const { follows, header } = res.locals;
   const { username, picture } = header[0];
-  
+
   try {
     const { rows } = await postRepository.fetchUserData(id, page, offset);
     if (rows.length === 0)
-      return res.status(200).send({ message: "There are no posts yet" });
+      return res.status(200).send({ posts: rows, header: { username, picture, follows, id }, message: "There are no posts yet" });
     res
       .status(200)
       .send({ posts: rows, header: { username, picture, follows, id } });
