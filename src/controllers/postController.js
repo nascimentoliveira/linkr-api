@@ -75,16 +75,18 @@ export async function fetchData(req, res) {
 
 export async function fetchUserData(req, res, next) {
   const { id } = req.params;
-  const { follows } = res.locals;
   const page = req.query.page;
-  const offset = req.query.offset;  
+  const offset = req.query.offset;
+  const { follows, header } = res.locals;
+  const { username, picture } = header[0];
+  
   try {
     const { rows } = await postRepository.fetchUserData(id, page, offset);
-    if (rows.length === 0) {
-      res.status(200).send({ message: "There are no posts yet" });
-      return;
-    }
-    res.status(200).send({ posts: rows, follows });
+    if (rows.length === 0)
+      return res.status(200).send({ message: "There are no posts yet" });
+    res
+      .status(200)
+      .send({ posts: rows, header: { username, picture, follows, id } });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });

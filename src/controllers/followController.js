@@ -1,4 +1,5 @@
 import followRepository from "../repositories/followRepository.js";
+import { MESSAGES } from "../constants.js";
 
 export async function follow(req, res) {
   const followerId = res.locals.user.id;
@@ -29,3 +30,4 @@ export async function unfollow(req, res) {
     });
   }
 }
+

@@ -19,11 +19,13 @@ export async function checkFollow(req, res, next) {
   const follower = res.locals.user.id;
   const followed = req.params.id;
   try {
-    const { rows } = await followRepository.checkFollow(followed, follower);
-    const follows = rows.length !== 0;
-    if (follows) {
+    const follows = (await followRepository.checkFollow(followed, follower)).rows;
+    if (follows.length !== 0) {
+      res.locals.header = follows
       res.locals.follows = true;
     } else {
+      const header = (await followRepository.getUserData(followed)).rows
+      res.locals.header = header;
       res.locals.follows = false;
     }
     next();
