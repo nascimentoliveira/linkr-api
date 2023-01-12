@@ -81,28 +81,38 @@ async function fetchData(id, page, offset) {
   );
 }
 
-async function fetchUserData(id) {
-  return db.query(
-    `
-  SELECT 
-  posts.id,
-  posts.text, 
-  urls.url,
-  urls.title,
-  urls.image,
-  urls.description,
-  users.username,
-  users.picture,
-  users.id AS "userId" 
-FROM posts 
-  JOIN urls ON 
-    posts."urlId" = urls.id
-  JOIN users ON 
-    posts."userId" = users.id
-WHERE users.id = $1
-  ORDER BY posts."createdAt" DESC LIMIT 10 
-  `,
-    [id]
+async function fetchUserData(id, page, offset) {
+  return db.query(`
+    SELECT 
+      posts.id,
+      posts.text, 
+      urls.url,
+      urls.title,
+      urls.image,
+      urls.description,
+      users.username,
+      users.picture,
+      users.id AS "userId" 
+    FROM 
+      posts 
+    JOIN 
+      urls 
+    ON 
+      posts."urlId" = urls.id
+    JOIN 
+      users 
+    ON 
+      posts."userId" = users.id
+    WHERE 
+      users.id=$1
+    ORDER BY 
+      posts."createdAt" 
+    DESC     
+    OFFSET
+      $2 
+    LIMIT 
+      $3`,
+  [id, page * offset, offset ]
   );
 }
 

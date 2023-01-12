@@ -48,7 +48,10 @@ export async function hashtagPosts(req, res, next) {
   try {
     const hashtagPosts = (await hashtagRepository.getHashtagPosts(id, page, offset)).rows;
     res.status(200).send(hashtagPosts);
-
+    if (hashtagPosts.length === 0) {
+      res.status(200).send({ message: "There are no posts yet" });
+      return;
+    }
   } catch (err) {
     console.error(MESSAGES.INTERNAL_SERVER_ERROR, err);
     res.status(500).send({ message: MESSAGES.CLIENT_SERVER_ERROR });
