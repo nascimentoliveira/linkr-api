@@ -62,7 +62,7 @@ async function getTopHashtags() {
   );
 }
 
-async function getHashtagPosts(hashtagId) {
+async function getHashtagPosts(hashtagId, page, offset) {
   return db.query(`
     SELECT 
       posts.text, 
@@ -93,9 +93,11 @@ async function getHashtagPosts(hashtagId) {
     ORDER BY 
       posts."createdAt" 
     DESC 
+    OFFSET
+      $2 
     LIMIT 
-      20`,
-    [hashtagId]
+      $3`,
+    [hashtagId, page * offset, offset]
   );
 }
 
