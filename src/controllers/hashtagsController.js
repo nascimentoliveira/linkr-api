@@ -43,15 +43,15 @@ export async function hashtagPosts(req, res, next) {
 
   const { id } = res.locals.hashtagId;
   const page = req.query.page;
-  const offset = req.query.offset;  
+  const offset = req.query.offset;
 
   try {
     const hashtagPosts = (await hashtagRepository.getHashtagPosts(id, page, offset)).rows;
-    res.status(200).send(hashtagPosts);
     if (hashtagPosts.length === 0) {
-      res.status(200).send({ message: "There are no posts yet" });
+      res.status(200).send({ posts: hashtagPosts, message: "There are no posts yet" });
       return;
     }
+    res.status(200).send({ posts: hashtagPosts });
   } catch (err) {
     console.error(MESSAGES.INTERNAL_SERVER_ERROR, err);
     res.status(500).send({ message: MESSAGES.CLIENT_SERVER_ERROR });

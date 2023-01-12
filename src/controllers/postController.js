@@ -63,10 +63,10 @@ export async function fetchData(req, res) {
   try {
     const { rows } = await postRepository.fetchData(id, page, offset);
     if (rows.length === 0) {
-      res.status(200).send({ rows: rows, message: "There are no posts yet" });
+      res.status(200).send({ posts: rows, message: "There are no posts yet" });
       return;
     }
-    res.status(200).send(rows);
+    res.status(200).send({ posts: rows });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
