@@ -68,7 +68,6 @@ const followRepository = {
   unfollow,
   checkFollow,
   getUserData
-  // hasPosts,
 };
 
 export default followRepository;

@@ -79,7 +79,7 @@ export async function fetchUserData(req, res, next) {
       return res.status(204).send({ message: "There are no posts yet" });
     res
       .status(200)
-      .send({ posts: rows, header: { username, picture, follows } });
+      .send({ posts: rows, header: { username, picture, follows, id } });
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
