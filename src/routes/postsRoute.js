@@ -1,7 +1,7 @@
 import { Router } from "express";
 import validateSchema from "../middlewares/schemaValidator.js";
 import postSchema from "../schemas/postSchema.js";
-import { checkFollow, fetchMetadata } from "../middlewares/postMiddleware.js";
+import { checkFollow, fetchMetadata, getFollowed } from "../middlewares/postMiddleware.js";
 import {
   fetchUserData,
   fetchData,
@@ -21,7 +21,7 @@ postRouter.post(
   newPost
 );
 
-postRouter.get("/timeline", tokenValid, fetchData);
+postRouter.get("/timeline", tokenValid, getFollowed,fetchData);
 
 postRouter.get("/user/:id", tokenValid, checkFollow, fetchUserData);
 
