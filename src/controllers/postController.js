@@ -58,20 +58,25 @@ export async function editPost(req, res) {
 
 export async function fetchData(req, res) {
   const { id } = res.locals.user;
-  const page = req.query.page;
   const offset = req.query.offset;
+  const more = req.query.more;
+  const lastRefresh = req.query.lastRefresh;
+
   const { follows } = res.locals;
   try {
-    const { rows } = await postRepository.fetchData(id, page, offset);
+    const { rows } = (lastRefresh ? 
+      (await postRepository.fetchNewPosts(id, lastRefresh)) :
+      (await postRepository.fetchData(id, offset, more)));
+
     if (rows.length === 0 && follows) {
-      res.status(200).send({ rows: rows, message: "No posts found from your friends" });
+      res.status(200).send({ posts: rows, message: "No posts found from your friends" });
       return;
     }
     if(rows.length === 0 && !follows){
       res.status(200).send({ rows: rows, message: "You don't follow anyone yet. Search for new friends!" });
       return;
     }
-    res.status(200).send(rows);
+    res.status(200).send({ posts: rows });
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
