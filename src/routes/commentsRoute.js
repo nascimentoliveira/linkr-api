@@ -3,7 +3,7 @@ import { createComment, getComments } from "../controllers/commentsController.js
 
 const commentsRouter = Router();
 
-commentsRouter.post("/comments", createComment);
-commentsRouter.get("/comments", getComments);
+commentsRouter.post("/comments/:postId", createComment);
+commentsRouter.get("/comments/:postId", getComments);
 
 export default commentsRouter;
