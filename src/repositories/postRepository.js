@@ -155,12 +155,25 @@ async function fetchUserData(id, page, offset) {
   );
 }
 
-async function deletePost(userId, Id) {
-  return db.query(
-    `
-  DELETE FROM posts 
-  WHERE "userId" = $1 AND "id" = $2;`,
-    [userId, Id]
+async function getPostById(id) {
+  return db.query(`
+    SELECT 
+      *
+    FROM 
+      posts
+    WHERE "id"=$1;`,
+    [id]
+  );
+}
+
+async function deletePost(id) {
+  return db.query(`
+    DELETE 
+    FROM 
+      posts 
+    WHERE 
+      id=$1;`,
+    [id]
   );
 }
 
@@ -180,6 +193,7 @@ const postRepository = {
   createPost,
   fetchData,
   fetchUserData,
+  getPostById,
   deletePost,
   editPost,
   fetchNewPosts
