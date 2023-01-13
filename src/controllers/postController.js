@@ -58,10 +58,15 @@ export async function editPost(req, res) {
 
 export async function fetchData(req, res) {
   const { id } = res.locals.user;
-  const page = req.query.page;
   const offset = req.query.offset;
+  const more = req.query.more;
+  const lastRefresh = req.query.lastRefresh;
+
   try {
-    const { rows } = await postRepository.fetchData(id, page, offset);
+    const { rows } = (lastRefresh ? 
+      (await postRepository.fetchNewPosts(id, lastRefresh)) :
+      (await postRepository.fetchData(id, offset, more)));
+
     if (rows.length === 0) {
       res.status(200).send({ posts: rows, message: "There are no posts yet" });
       return;
