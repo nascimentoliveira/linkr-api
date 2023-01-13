@@ -37,15 +37,32 @@ async function checkFollow(followed, follower) {
   );
 }
 
-
-async function getUserData (id){
-  return db.query(`
+async function getUserData(id) {
+  return db.query(
+    `
     SELECT 
       username, 
       picture
     FROM users
       WHERE id = $1;
-  `,[id])
+  `,
+    [id]
+  );
+}
+
+async function checkMyFollwed(id) {
+  return db.query(
+    `
+    SELECT 
+      f.id 
+    FROM 
+      followers f 
+    JOIN users 
+      ON users.id = f."followerId" 
+    WHERE users.id = $1
+  `,
+    [id]
+  );
 }
 async function getFollowersId(userId){
   return connection.query(
@@ -63,11 +80,11 @@ async function getFollowersId(userId){
 // async function hasPosts(id) {
 //   return db.query(
 //     `
-//     SELECT 
-//       * 
-//     FROM 
-//       posts 
-//     JOIN 
+//     SELECT
+//       *
+//     FROM
+//       posts
+//     JOIN
 //       followers ON posts."userId" = followers."followedId"
 //     WHERE
 //       followers."followerId" = $1
@@ -80,7 +97,8 @@ const followRepository = {
   unfollow,
   checkFollow,
   getUserData,
-  getFollowersId
+  getFollowersId,
+  checkMyFollwed
 };
 
 export default followRepository;

@@ -42,7 +42,7 @@ async function createPost(userId, urlId, text) {
   );
 }
 
-async function fetchData(id, page, offset) {
+async function fetchData(id, offset, more) {
   return db.query(`
     SELECT 
       posts.text, 
@@ -69,7 +69,8 @@ async function fetchData(id, page, offset) {
     ON 
       followers."followedId" = users.id
     WHERE 
-      followers."followerId"=$1 OR users.id=$1
+      (followers."followerId"=$1 OR users.id=$1) 
+
     ORDER BY 
       posts."createdAt" 
     DESC
@@ -77,9 +78,47 @@ async function fetchData(id, page, offset) {
       $2 
     LIMIT 
       $3`,
-    [id, page * offset, offset ]
+    [id, offset, more ]
   );
 }
+
+async function fetchNewPosts(id, lastRefresh) {
+  return db.query(`
+    SELECT 
+      posts.text, 
+      posts.id,
+      urls.url,
+      urls.title,
+      urls.image,
+      urls.description, 
+      users.username,
+      users.picture,
+      users.id AS "userId"
+    FROM 
+      posts
+    JOIN 
+      urls 
+    ON 
+      posts."urlId" = urls.id
+    JOIN 
+      users 
+    ON 
+      posts."userId" = users.id
+    LEFT JOIN 
+      followers 
+    ON 
+      followers."followedId" = users.id
+    WHERE 
+      (followers."followerId"=$1 OR users.id=$1) 
+    AND 
+      (posts."createdAt">$2)
+    ORDER BY 
+      posts."createdAt" 
+    DESC`,
+    [id, lastRefresh ]
+  );
+}
+
 
 async function fetchUserData(id, page, offset) {
   return db.query(`
@@ -116,12 +155,25 @@ async function fetchUserData(id, page, offset) {
   );
 }
 
-async function deletePost(userId, Id) {
-  return db.query(
-    `
-  DELETE FROM posts 
-  WHERE "userId" = $1 AND "id" = $2;`,
-    [userId, Id]
+async function getPostById(id) {
+  return db.query(`
+    SELECT 
+      *
+    FROM 
+      posts
+    WHERE "id"=$1;`,
+    [id]
+  );
+}
+
+async function deletePost(id) {
+  return db.query(`
+    DELETE 
+    FROM 
+      posts 
+    WHERE 
+      id=$1;`,
+    [id]
   );
 }
 
@@ -141,8 +193,10 @@ const postRepository = {
   createPost,
   fetchData,
   fetchUserData,
+  getPostById,
   deletePost,
   editPost,
+  fetchNewPosts
 };
 
 export default postRepository;
