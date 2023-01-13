@@ -167,18 +167,12 @@ async function getPostById(id) {
 }
 
 async function deletePost(id) {
-  console.log(id)
   return db.query(`
-    WITH 
-    a AS 
-      (DELETE FROM "postsHashtags" WHERE "postId"=$1),
-    b AS
-      (DELETE FROM shares WHERE "postId"=$1),
-    c AS
-      (DELETE FROM likes WHERE "postId"=$1),
-    d AS
-      (DELETE FROM comments WHERE "postId"=$1),
-    DELETE FROM posts WHERE id=$1;`,
+    DELETE 
+    FROM 
+      posts 
+    WHERE 
+      id=$1;`,
     [id]
   );
 }
