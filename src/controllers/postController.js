@@ -37,7 +37,7 @@ export async function deletePost(req, res) {
     await postRepository.deletePost(userId, id);
     res.sendStatus(200);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.sendStatus(500);
   }
 }
@@ -51,7 +51,7 @@ export async function editPost(req, res) {
     await postRepository.editPost(text, userId, id);
     res.status(200).send(text);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.sendStatus(500);
   }
 }
@@ -60,15 +60,20 @@ export async function fetchData(req, res) {
   const { id } = res.locals.user;
   const page = req.query.page;
   const offset = req.query.offset;
+  const { follows } = res.locals;
   try {
     const { rows } = await postRepository.fetchData(id, page, offset);
-    if (rows.length === 0) {
-      res.status(200).send({ rows: rows, message: "There are no posts yet" });
+    if (rows.length === 0 && follows) {
+      res.status(200).send({ rows: rows, message: "No posts found from your friends" });
+      return;
+    }
+    if(rows.length === 0 && !follows){
+      res.status(200).send({ rows: rows, message: "You don't follow anyone yet. Search for new friends!" });
       return;
     }
     res.status(200).send(rows);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
   }
 }
@@ -88,7 +93,7 @@ export async function fetchUserData(req, res, next) {
       .status(200)
       .send({ posts: rows, header: { username, picture, follows, id } });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
   }
 }
