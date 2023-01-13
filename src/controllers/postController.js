@@ -64,16 +64,23 @@ export async function fetchData(req, res) {
 
   const { follows } = res.locals;
   try {
-    const { rows } = (lastRefresh ? 
-      (await postRepository.fetchNewPosts(id, lastRefresh)) :
-      (await postRepository.fetchData(id, offset, more)));
+    const { rows } = lastRefresh
+      ? await postRepository.fetchNewPosts(id, lastRefresh)
+      : await postRepository.fetchData(id, offset, more);
 
     if (rows.length === 0 && follows) {
-      res.status(200).send({ posts: rows, message: "No posts found from your friends" });
+      res
+        .status(200)
+        .send({ posts: rows, message: "No posts found from your friends" });
       return;
     }
-    if(rows.length === 0 && !follows){
-      res.status(200).send({ rows: rows, message: "You don't follow anyone yet. Search for new friends!" });
+    if (rows.length === 0 && !follows) {
+      res
+        .status(200)
+        .send({
+          posts: rows,
+          message: "You don't follow anyone yet. Search for new friends!",
+        });
       return;
     }
     res.status(200).send({ posts: rows });
@@ -93,7 +100,13 @@ export async function fetchUserData(req, res, next) {
   try {
     const { rows } = await postRepository.fetchUserData(id, page, offset);
     if (rows.length === 0)
-      return res.status(200).send({ posts: rows, header: { username, picture, follows, id }, message: "There are no posts yet" });
+      return res
+        .status(200)
+        .send({
+          posts: rows,
+          header: { username, picture, follows, id },
+          message: "There are no posts yet",
+        });
     res
       .status(200)
       .send({ posts: rows, header: { username, picture, follows, id } });
