@@ -64,6 +64,18 @@ async function checkMyFollwed(id) {
     [id]
   );
 }
+async function getFollowersId(userId){
+  return connection.query(
+      `
+          SELECT ARRAY(
+              SELECT "followedUserId"
+              FROM "followedUsers" f
+              WHERE f."userId" = $1
+          )
+      `,
+      [userId]
+  );
+};
 
 // async function hasPosts(id) {
 //   return db.query(
@@ -85,6 +97,7 @@ const followRepository = {
   unfollow,
   checkFollow,
   getUserData,
+  getFollowersId.
   checkMyFollwed
 };
 
