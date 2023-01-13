@@ -25,20 +25,15 @@ export async function newPost(req, res) {
 }
 
 export async function deletePost(req, res) {
-  const user = res.locals.user;
-  const { id } = req.params;
-  const userId = user.id;
-  const postId = id;
-  console.log(userId, id);
+  const { id } = res.locals.post
+
   try {
-    if (!postId) {
-      return res.sendStatus(400);
-    }
-    await postRepository.deletePost(userId, id);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
+    await postRepository.deletePost(id);
+    res.status(200).send({ message: 'Post deleted!' });
+
+  } catch (err) {
+    console.error(MESSAGES.INTERNAL_SERVER_ERROR, err);
+    res.status(500).send({ message: 'An error has ocurred, unable to delete the post...' });
   }
 }
 

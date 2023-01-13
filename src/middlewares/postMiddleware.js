@@ -1,6 +1,7 @@
 import urlMetadata from "url-metadata";
 import { MESSAGES } from "../constants.js";
 import followRepository from "../repositories/followRepository.js";
+import postRepository from "../repositories/postRepository.js";
 
 export async function fetchMetadata(req, res, next) {
   const { url } = req.body;
@@ -50,4 +51,40 @@ export async function getFollowed(req, res, next) {
     console.error(err);
     res.status(500).send({ message: MESSAGES.FETCH_POSTS_ERROR });
   }
+}
+
+export async function postIdValid(req, res, next) {
+
+  const { id } = req.params;
+
+  try {
+    const [post] = (await postRepository.getPostById(id)).rows;
+
+    if (!post) {
+      res.status(404).send({ message: 'Unregistered post!' });
+      return;
+    }
+
+    res.locals.post = post;
+
+  } catch (err) {
+    console.error(MESSAGES.INTERNAL_SERVER_ERROR, err);
+    res.status(500).send({ message: MESSAGES.CLIENT_SERVER_ERROR });
+    return;
+  }
+
+  next();
+}
+
+export async function checkUserOwner(req, res, next) {
+
+  const { userId } = res.locals.post;
+  const { id } = res.locals.user;
+
+  if (userId !== id) {
+    res.status(401).send({ message: 'Operation not allowed!' });
+    return;
+  }
+
+  next();
 }

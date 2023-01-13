@@ -97,7 +97,7 @@ const followRepository = {
   unfollow,
   checkFollow,
   getUserData,
-  getFollowersId.
+  getFollowersId,
   checkMyFollwed
 };
 
