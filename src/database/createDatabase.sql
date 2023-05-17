@@ -1,5 +1,5 @@
 CREATE TABLE "users" (
-	"id" SERIAL NOT NULL PRIMARY KEY ,
+	"id" SERIAL NOT NULL PRIMARY KEY,
 	"email" TEXT NOT NULL UNIQUE,
 	"password" TEXT NOT NULL,
 	"username" VARCHAR(50) NOT NULL,
@@ -8,21 +8,24 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "sessions" (
-	"id" SERIAL NOT NULL PRIMARY KEY ,
+	"id" SERIAL NOT NULL PRIMARY KEY,
 	"userId" INTEGER NOT NULL,
 	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE "likes" (
-	"id" SERIAL NOT NULL PRIMARY KEY ,
+	"id" SERIAL NOT NULL PRIMARY KEY,
 	"userId" INTEGER NOT NULL,
 	"postId" INTEGER NOT NULL,
 	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE "urls" (
-	"id" SERIAL NOT NULL PRIMARY KEY ,
+	"id" SERIAL NOT NULL PRIMARY KEY,
 	"url" TEXT NOT NULL UNIQUE,
+	"title" TEXT NOT NULL,
+	"image" TEXT NOT NULL,
+	"description" TEXT NOT NULL,
 	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
@@ -47,13 +50,44 @@ CREATE TABLE "postsHashtags" (
 	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE "shares" (
+	"id" SERIAL NOT NULL PRIMARY KEY,
+	"postId" INTEGER NOT NULL,
+	"userId" INTEGER NOT NULL,
+	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE "followers" (
+	"id" SERIAL NOT NULL PRIMARY KEY,
+	"followedId" INTEGER NOT NULL,
+	"followerId" INTEGER NOT NULL,
+	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE "comments" (
+	"id" SERIAL NOT NULL PRIMARY KEY,
+	"postId" INTEGER NOT NULL,
+	"userId" INTEGER NOT NULL,
+	"comment" TEXT NOT NULL,
+	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+);
+
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id");
 
 ALTER TABLE "likes" ADD CONSTRAINT "likes_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id");
 ALTER TABLE "likes" ADD CONSTRAINT "likes_fk1" FOREIGN KEY ("postId") REFERENCES "posts"("id");
 
-ALTER TABLE "posts" ADD CONSTRAINT "posts_fk0" FOREIGN KEY ("userid") REFERENCES "users"("id");
-ALTER TABLE "posts" ADD CONSTRAINT "posts_fk1" FOREIGN KEY ("linkId") REFERENCES "urls"("id");
+ALTER TABLE "posts" ADD CONSTRAINT "posts_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id");
+ALTER TABLE "posts" ADD CONSTRAINT "posts_fk1" FOREIGN KEY ("urlId") REFERENCES "urls"("id");
 
-ALTER TABLE "postsHashtags" ADD CONSTRAINT "postsHashtags_fk0" FOREIGN KEY ("postId") REFERENCES "posts"("id");
+ALTER TABLE "postsHashtags" ADD CONSTRAINT "postsHashtags_fk0" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE CASCADE;
 ALTER TABLE "postsHashtags" ADD CONSTRAINT "postsHashtags_fk1" FOREIGN KEY ("hashtagId") REFERENCES "hashtags"("id");
+
+ALTER TABLE "shares" ADD CONSTRAINT "shares_fk0" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE CASCADE;
+ALTER TABLE "shares" ADD CONSTRAINT "shares_fk1" FOREIGN KEY ("userId") REFERENCES "users"("id");
+
+ALTER TABLE "followers" ADD CONSTRAINT "followers_fk0" FOREIGN KEY ("followedId") REFERENCES "users"("id");
+ALTER TABLE "followers" ADD CONSTRAINT "followers_fk1" FOREIGN KEY ("followerId") REFERENCES "users"("id");
+
+ALTER TABLE "comments" ADD CONSTRAINT "comments_fk0" FOREIGN KEY ("postId") REFERENCES "posts"("id");
+ALTER TABLE "comments" ADD CONSTRAINT "comments_fk1" FOREIGN KEY ("userId") REFERENCES "users"("id");
