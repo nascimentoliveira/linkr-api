@@ -1,5 +1,5 @@
 {
-  "name": "projeto18-linkr-backend",
+  "name": "linkr-api",
   "type": "module",
   "version": "1.0.0",
   "description": "",
@@ -13,8 +13,8 @@
     "url": "git+https://github.com/Vittorio-Fassano/Projeto18-Linkr-Backend.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Thiago Oliveira",
+  "license": "MPL-2.0",
   "bugs": {
     "url": "https://github.com/Vittorio-Fassano/Projeto18-Linkr-Backend/issues"
   },
