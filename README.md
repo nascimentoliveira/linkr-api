@@ -89,11 +89,11 @@ Após a configuração, você pode iniciar a API executando o seguinte comando:
   ```
 A API será iniciada e estará pronta para receber requisições.
 
-## Endpoints*
+## Endpoints* 🛠
 
 **Uma descrição detalhada desssa seção está sendo construída!*
 
-**Os endpoints estão sendo refatorados!**
+🛠 **Os endpoints estão sendo refatorados!**
 
 A API do Shortly possui os seguintes endpoints disponíveis:
 
