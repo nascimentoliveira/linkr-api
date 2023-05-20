@@ -3,7 +3,7 @@
 ![last commit - linkr-api](https://img.shields.io/github/last-commit/nascimentoliveira/linkr-api?color=007ec6&style=flat-square)
 ![repo size - linkr-api](https://img.shields.io/github/repo-size/nascimentoliveira/linkr-api?color=007ec6&style=flat-square)
 ![files - linkr-api](https://img.shields.io/github/directory-file-count/nascimentoliveira/linkr-api?color=007ec6&style=flat-square)
-![language - shlinkrortly-api](https://img.shields.io/github/languages/top/nascimentoliveira/linkr-api?color=007ec6&style=flat-square)
+![language - linkr-api](https://img.shields.io/github/languages/top/nascimentoliveira/linkr-api?color=007ec6&style=flat-square)
 ![stars - linkr-api](https://img.shields.io/github/stars/nascimentoliveira/linkr-api?color=007ec6&style=flat-square)
 ![forks - linkr-api](https://img.shields.io/github/forks/nascimentoliveira/linkr-api?color=007ec6&style=flat-square)
 
@@ -14,6 +14,8 @@ Aqui você encontrará informações sobre a estrutura da API, como executá-la 
 > O código-fonte do front-end da aplicação está hospedado no GitHub em: [Linkr Front-end](https://github.com/nascimentoliveira/linkr)
 
 > Linkr atualmente pode ser experimentado em: [Linkr Live Demo](https://nascimentoliveira-linkr.vercel.app)
+>  
+>> *A primeira requisição ao Live Demo pode levar um pouco mais de tempo para carregar. Isso ocorre porque os servidores são ativados conforme necessário e podem levar alguns instantes para iniciar!*
 
 ## Tecnologias Utilizadas
 
@@ -88,6 +90,14 @@ Após a configuração, você pode iniciar a API executando o seguinte comando:
   npm start
   ```
 A API será iniciada e estará pronta para receber requisições.
+O servidor será iniciado na porta especificada no arquivo `.env` (por padrão, é a porta 4000).
+  ```bash
+  http://localhost:4000/api
+  ```
+ou 
+  ```bash
+  http://localhost:<porta_especificada>/api
+  ```
 
 ## Endpoints* 🛠
 
@@ -95,7 +105,7 @@ A API será iniciada e estará pronta para receber requisições.
 
 🛠 **Os endpoints estão sendo refatorados!**
 
-A API do Shortly possui os seguintes endpoints disponíveis:
+A API do Linkr possui os seguintes endpoints disponíveis:
 
 ```
 POST /auth
