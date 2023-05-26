@@ -10,7 +10,8 @@ const app = express();
 app
   .use(cors())
   .use(express.json())
-  .use(routers);
+  .use("/api", routers)
+  .use("/", health);
 
 export default app;
 //
