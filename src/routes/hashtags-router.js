@@ -7,8 +7,8 @@ const hashtags = Router();
 
 hashtags
   .all("/*", tokenValid)
-  .get("/", tokenValid, topHashtag)
-  .get("/:hashtag", tokenValid, hashtagValid, hashtagPosts);
+  .get("/", topHashtag)
+  .get("/:hashtag", hashtagValid, hashtagPosts);
 
 export default hashtags;
 //
