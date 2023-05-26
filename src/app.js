@@ -3,6 +3,7 @@ import cors from "cors";
 
 import loadEnv from "./envs.js";
 import routers from "./routes/index.js";
+import health from "./routes/health-router.js";
 
 loadEnv();
 

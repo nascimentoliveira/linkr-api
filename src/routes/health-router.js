@@ -9,7 +9,7 @@ health
     const databaseStatus = await checkDatabaseConnection();
     const isHealthy = (databaseStatus === "connected");
     res.status(isHealthy ? 200 : 500).send({
-      description: "Shortly-API",
+      description: "Linkr-API",
       status: isHealthy ? "healthy" : "unhealthy",
       database: databaseStatus,
       timestamp: new Date().toISOString(),
