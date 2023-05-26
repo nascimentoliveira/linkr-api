@@ -1,4 +1,4 @@
-import db from "../database/db.js";
+import connection from "../database/database.js"
 
 async function searchUser(search){
     return db.query(`

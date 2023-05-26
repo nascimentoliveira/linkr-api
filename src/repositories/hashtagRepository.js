@@ -1,4 +1,4 @@
-import db from '../database/db.js';
+import db from '../database/database.js';
 
 async function getAllHashtags() {
   return db.query(`

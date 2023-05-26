@@ -1,4 +1,4 @@
-import connection from "../database/db.js";
+import connection from "../database/database.js"
 
 async function createComment(postId, userId, comment) {
     return connection.query(
