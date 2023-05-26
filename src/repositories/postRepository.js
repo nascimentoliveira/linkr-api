@@ -1,7 +1,7 @@
-import connection from "../database/database.js"
+import connectionDB from "../database/database.js"
 
 async function insertUrl(url, title, image, description) {
-  return db.query(
+  return connectionDB.query(
     `
     INSERT INTO 
       urls (url, title, image, description)
@@ -18,7 +18,7 @@ async function insertUrl(url, title, image, description) {
 }
 
 async function getUrlId(url) {
-  return db.query(
+  return connectionDB.query(
     `
     SELECT 
       id
@@ -30,7 +30,7 @@ async function getUrlId(url) {
 }
 
 async function createPost(userId, urlId, text) {
-  return db.query(
+  return connectionDB.query(
     `
     INSERT INTO 
       posts("userId", "urlId", "text")
@@ -43,7 +43,7 @@ async function createPost(userId, urlId, text) {
 }
 
 async function fetchData(id, offset, more) {
-  return db.query(`
+  return connectionDB.query(`
     SELECT 
       posts.text, 
       posts.id,
@@ -83,7 +83,7 @@ async function fetchData(id, offset, more) {
 }
 
 async function fetchNewPosts(id, lastRefresh) {
-  return db.query(`
+  return connectionDB.query(`
     SELECT 
       posts.text, 
       posts.id,
@@ -121,7 +121,7 @@ async function fetchNewPosts(id, lastRefresh) {
 
 
 async function fetchUserData(id, page, offset) {
-  return db.query(`
+  return connectionDB.query(`
     SELECT 
       posts.id,
       posts.text, 
@@ -156,7 +156,7 @@ async function fetchUserData(id, page, offset) {
 }
 
 async function getPostById(id) {
-  return db.query(`
+  return connectionDB.query(`
     SELECT 
       *
     FROM 
@@ -167,7 +167,7 @@ async function getPostById(id) {
 }
 
 async function deletePost(id) {
-  return db.query(`
+  return connectionDB.query(`
     DELETE 
     FROM 
       posts 
@@ -178,7 +178,7 @@ async function deletePost(id) {
 }
 
 async function editPost(text, userId, id) {
-  return db.query(
+  return connectionDB.query(
     `
   UPDATE posts 
   SET text = $1

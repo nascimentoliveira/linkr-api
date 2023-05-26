@@ -1,7 +1,7 @@
-import connection from "../database/database.js"
+import connectionDB from "../database/database.js"
 
 async function follow(followed, follower) {
-  return db.query(
+  return connectionDB.query(
     `
         INSERT INTO 
             followers ("followedId", "followerId")
@@ -12,7 +12,7 @@ async function follow(followed, follower) {
 }
 
 async function unfollow(followed, follower) {
-  return db.query(
+  return connectionDB.query(
     `
           DELETE FROM
               followers
@@ -23,7 +23,7 @@ async function unfollow(followed, follower) {
 }
 
 async function checkFollow(followed, follower) {
-  return db.query(
+  return connectionDB.query(
     `
         SELECT 
           users.username, 
@@ -38,7 +38,7 @@ async function checkFollow(followed, follower) {
 }
 
 async function getUserData(id) {
-  return db.query(
+  return connectionDB.query(
     `
     SELECT 
       username, 
@@ -51,7 +51,7 @@ async function getUserData(id) {
 }
 
 async function checkMyFollwed(id) {
-  return db.query(
+  return connectionDB.query(
     `
     SELECT 
       f.id 
@@ -65,7 +65,7 @@ async function checkMyFollwed(id) {
   );
 }
 async function getFollowersId(userId){
-  return connection.query(
+  return connectionDB.query(
       `
           SELECT ARRAY(
               SELECT "followedUserId"

@@ -1,7 +1,7 @@
-import connection from "../database/database.js"
+import connectionDB from "../database/database.js"
 
 async function searchUser(search){
-    return db.query(`
+    return connectionDB.query(`
     SELECT 
     picture,
     username,
@@ -14,7 +14,7 @@ WHERE username
 }
 
 async function checkFollow(myId,id){
-    return db.query(`
+    return connectionDB.query(`
     SELECT * FROM followers WHERE "followerId" = $1 AND "followedId" = $2
     `,[myId,id])
 }

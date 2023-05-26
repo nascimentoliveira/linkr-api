@@ -1,7 +1,7 @@
-import connection from "../database/database.js"
+import connectionDB from "../database/database.js"
 
 async function getUserByEmail(email) {
-  return connection.query(`
+  return connectionDB.query(`
     SELECT 
       * 
     FROM 
@@ -13,7 +13,7 @@ async function getUserByEmail(email) {
 }
 
 async function getUserBySession(id) {
-  return connection.query(`
+  return connectionDB.query(`
     SELECT 
       u.* 
     FROM 
@@ -30,7 +30,7 @@ async function getUserBySession(id) {
 
 
 async function newUser(name, email, password, picture) {
-  return connection.query(`
+  return connectionDB.query(`
     INSERT INTO 
       users(username, email, password, picture)
     VALUES 
@@ -40,7 +40,7 @@ async function newUser(name, email, password, picture) {
 }
 
 async function newSession(userId) {
-  return connection.query(`
+  return connectionDB.query(`
     INSERT INTO 
       sessions("userId")
     VALUES 

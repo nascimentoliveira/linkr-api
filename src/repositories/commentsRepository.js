@@ -1,7 +1,7 @@
-import connection from "../database/database.js"
+import connectionDB from "../database/database.js"
 
 async function createComment(postId, userId, comment) {
-    return connection.query(
+    return connectionDB.query(
         `
             INSERT 
             INTO comments
@@ -13,7 +13,7 @@ async function createComment(postId, userId, comment) {
 };
 
 async function getComments(postId) {
-    return connection.query(
+    return connectionDB.query(
         `
             SELECT 
                 comments."userId" as "userIdComment", 

@@ -1,7 +1,7 @@
-import db from '../database/database.js';
+import connectionDB from '../database/database.js';
 
 async function getAllHashtags() {
-  return db.query(`
+  return connectionDB.query(`
     SELECT 
       id, hashtag
     FROM
@@ -10,7 +10,7 @@ async function getAllHashtags() {
 }
 
 async function insertHashtags(hashtags) {
-  return db.query(`
+  return connectionDB.query(`
     INSERT INTO 
       hashtags(hashtag)
     VALUES ` + hashtags.map((x, i) => `($${i + 1})`).join(', ') + `
@@ -21,7 +21,7 @@ async function insertHashtags(hashtags) {
 }
 
 async function registerPostHashtags(postId, hashtagsIds) {
-  return db.query(`
+  return connectionDB.query(`
     INSERT INTO 
       "postsHashtags"("postId", "hashtagId")
     VALUES ` + hashtagsIds.map((x, i) => `($1, $${i + 2})`).join(', ') + `;`,
@@ -30,7 +30,7 @@ async function registerPostHashtags(postId, hashtagsIds) {
 }
 
 async function hashtagRegistered(hashtag) {
-  return db.query(`
+  return connectionDB.query(`
     SELECT 
       id
     FROM
@@ -43,7 +43,7 @@ async function hashtagRegistered(hashtag) {
 
 
 async function getTopHashtags() {
-  return db.query(`
+  return connectionDB.query(`
     SELECT 
       h.id, h.hashtag
     FROM
@@ -63,7 +63,7 @@ async function getTopHashtags() {
 }
 
 async function getHashtagPosts(hashtagId, page, offset) {
-  return db.query(`
+  return connectionDB.query(`
     SELECT 
       posts.text, 
       posts.id,
