@@ -1,44 +1,45 @@
 import connectionDB from "../database/database.js"
 
 async function insertUrl(url, title, image, description) {
-  return connectionDB.query(
-    `
+  return connectionDB.query(`
     INSERT INTO 
       urls (url, title, image, description)
     SELECT 
       $1, $2, $3, $4
     WHERE
       NOT EXISTS (
-        SELECT url, id FROM urls WHERE url=$1
+        SELECT 
+          url, id 
+        FROM 
+          urls 
+        WHERE url=$1
       )
     RETURNING 
       id;`,
-    [url, title, image, description]
+    [url, title, image, description],
   );
 }
 
 async function getUrlId(url) {
-  return connectionDB.query(
-    `
+  return connectionDB.query(`
     SELECT 
       id
     FROM
       urls
     WHERE url=$1;`,
-    [url]
+    [url],
   );
 }
 
 async function createPost(userId, urlId, text) {
-  return connectionDB.query(
-    `
+  return connectionDB.query(`
     INSERT INTO 
       posts("userId", "urlId", "text")
     VALUES 
       ($1, $2, $3)
     RETURNING 
       id;`,
-    [userId, urlId, text]
+    [userId, urlId, text],
   );
 }
 
@@ -77,12 +78,12 @@ async function fetchData(id, offset, more) {
     OFFSET
       $2 
     LIMIT 
-      $3`,
-    [id, offset, more ]
+      $3;`,
+    [id, offset, more],
   );
 }
 
-async function fetchNewPosts(id, lastRefresh) {
+async function getNewPosts(id, lastRefresh) {
   return connectionDB.query(`
     SELECT 
       posts.text, 
@@ -114,13 +115,13 @@ async function fetchNewPosts(id, lastRefresh) {
       (posts."createdAt">$2)
     ORDER BY 
       posts."createdAt" 
-    DESC`,
-    [id, lastRefresh ]
+    DESC;`,
+    [id, lastRefresh],
   );
 }
 
 
-async function fetchUserData(id, page, offset) {
+async function getUserData(id, page, offset) {
   return connectionDB.query(`
     SELECT 
       posts.id,
@@ -150,53 +151,55 @@ async function fetchUserData(id, page, offset) {
     OFFSET
       $2 
     LIMIT 
-      $3`,
-  [id, page * offset, offset ]
+      $3;`,
+    [id, page * offset, offset],
   );
 }
 
-async function getPostById(id) {
+async function getPostById(postId) {
   return connectionDB.query(`
     SELECT 
       *
     FROM 
       posts
-    WHERE "id"=$1;`,
-    [id]
+    WHERE 
+      id=$1;`,
+    [postId]
   );
 }
 
-async function deletePost(id) {
+async function deletePost(postId) {
   return connectionDB.query(`
-    DELETE 
-    FROM 
+    DELETE FROM 
       posts 
     WHERE 
       id=$1;`,
-    [id]
+    [postId],
   );
 }
 
-async function editPost(text, userId, id) {
-  return connectionDB.query(
-    `
-  UPDATE posts 
-  SET text = $1
-  WHERE "userId" = $2 AND "id" = $3;`,
-    [text, userId, id]
+async function editPost(newText, postId) {
+  return connectionDB.query(`
+    UPDATE 
+      posts 
+    SET 
+      text=$1
+    WHERE 
+      id=$3;`,
+    [newText, postId],
   );
 }
 
-const postRepository = {
+const postsRepository = {
   insertUrl,
   getUrlId,
   createPost,
   fetchData,
-  fetchUserData,
+  getUserData,
   getPostById,
   deletePost,
   editPost,
-  fetchNewPosts
+  getNewPosts,
 };
 
-export default postRepository;
+export default postsRepository;

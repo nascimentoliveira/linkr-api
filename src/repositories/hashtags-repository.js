@@ -1,11 +1,11 @@
-import connectionDB from '../database/database.js';
+import connectionDB from "../database/database.js";
 
 async function getAllHashtags() {
   return connectionDB.query(`
     SELECT 
       id, hashtag
     FROM
-      hashtags;`
+      hashtags;`,
   );
 }
 
@@ -13,10 +13,10 @@ async function insertHashtags(hashtags) {
   return connectionDB.query(`
     INSERT INTO 
       hashtags(hashtag)
-    VALUES ` + hashtags.map((x, i) => `($${i + 1})`).join(', ') + `
+    VALUES ` + hashtags.map((x, i) => `($${i + 1})`).join(", ") + `
     RETURNING 
       id;`,
-    hashtags
+    [hashtags],
   );
 }
 
@@ -24,8 +24,8 @@ async function registerPostHashtags(postId, hashtagsIds) {
   return connectionDB.query(`
     INSERT INTO 
       "postsHashtags"("postId", "hashtagId")
-    VALUES ` + hashtagsIds.map((x, i) => `($1, $${i + 2})`).join(', ') + `;`,
-    [postId, ...hashtagsIds]
+    VALUES ` + hashtagsIds.map((x, i) => `($1, $${i + 2})`).join(", ") + `;`,
+    [postId, ...hashtagsIds],
   );
 }
 
@@ -36,8 +36,8 @@ async function hashtagRegistered(hashtag) {
     FROM
       hashtags
     WHERE
-      hashtag=$1`,
-    [hashtag]
+      hashtag=$1;`,
+    [hashtag],
   );
 }
 
@@ -58,7 +58,7 @@ async function getTopHashtags() {
       COUNT(ph."postId")
     DESC
     LIMIT 
-      10;`
+      10;`,
   );
 }
 
@@ -96,19 +96,19 @@ async function getHashtagPosts(hashtagId, page, offset) {
     OFFSET
       $2 
     LIMIT 
-      $3`,
-    [hashtagId, page * offset, offset]
+      $3;`,
+    [hashtagId, page * offset, offset],
   );
 }
 
-
-const hashtagRepository = {
+const hashtagsRepository = {
   getAllHashtags,
   insertHashtags,
   registerPostHashtags,
   getTopHashtags,
   getHashtagPosts,
-  hashtagRegistered
+  hashtagRegistered,
 };
 
-export default hashtagRepository;
+export default hashtagsRepository;
+//
