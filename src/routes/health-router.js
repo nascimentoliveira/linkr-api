@@ -32,36 +32,40 @@ export default health;
  *           content:
  *            application/json:
  *               schema:
- *                 $ref: '#/components/schemas/HealthResponse'
+ *                 type: object
+ *                 properties:
+ *                   description:
+ *                     type: string
+ *                     description: Descrição do status da saúde
+ *                   status:
+ *                     type: string
+ *                     description: Status da saúde do servidor
+ *                   database:
+ *                     type: string
+ *                     description: Status da conexão com o banco de dados
+ *                   timestamp:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Timestamp da resposta
  *         '500':
  *           description: Erro interno do servidor
  *           content:
  *             application/json:
  *               schema:
- *                 $ref: '#/components/schemas/InternalSeverError'
- * components:
- *   schemas:
- *      HealthResponse:
- *        type: object
- *        properties:
- *          description:
- *            type: string
- *            description: Descrição do status da saúde
- *          status:
- *            type: string
- *            description: Status da saúde do servidor
- *          database:
- *            type: string
- *            description: Status da conexão com o banco de dados
- *          timestamp:
- *            type: string
- *            format: date-time
- *            description: Timestamp da resposta
- *      InternalSeverError:
- *        type: object
- *        properties:
- *          error:
- *            type: string
- *            example: Ocorreu um erro interno no servidor. Tente novamente mais tarde.
+ *                 type: object
+ *                 properties:
+ *                   description:
+ *                     type: string
+ *                     description: Descrição do status da saúde
+ *                   status:
+ *                     type: string
+ *                     description: Status da saúde do servidor
+ *                   database:
+ *                     type: string
+ *                     description: Status da conexão com o banco de dados
+ *                   timestamp:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Timestamp da resposta
  */
 //

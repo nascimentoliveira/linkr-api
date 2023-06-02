@@ -1,13 +1,17 @@
 import { Router } from "express";
-import { follow, unfollow } from "../controllers/followController.js";
-import { tokenValid } from "../middlewares/authMiddleware.js";
+
+import authMiddleware from "../middlewares/auth-middleware.js";
+import usersMiddleware from "../middlewares/users-middleware.js";
+import followersController from "../controllers/followers-controller.js";
 
 const followers = Router();
 
 followers
-  .all("/*", tokenValid)
-  .get("/:id", follow)
-  .delete("/:id", unfollow);
+  .all("/*", authMiddleware.tokenValid)
+  .post("/:userId", usersMiddleware.userIdParamValid, followersController.follow)
+  .delete("/:userId", usersMiddleware.userIdParamValid, followersController.unfollow);
 
 export default followers;
 //
+//TODO: can't follow yourself
+//TODO: can't follow who already follows

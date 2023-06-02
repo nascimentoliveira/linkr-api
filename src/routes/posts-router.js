@@ -1,34 +1,21 @@
 import { Router } from "express";
+
+import postSchema from "../models/posts-model.js";
 import validateSchema from "../middlewares/schemaValidator.js";
-import postSchema from "../schemas/postSchema.js";
-import { tokenValid } from "../middlewares/authMiddleware.js";
-
-import {
-  checkFollow,
-  fetchMetadata,
-  getFollowed,
-  postIdValid,
-  checkUserOwner
-} from "../middlewares/postMiddleware.js";
-
-import {
-  fetchUserData,
-  fetchData,
-  newPost,
-  deletePost,
-  editPost,
-} from "../controllers/postController.js";
-
+import authMiddleware from "../middlewares/auth-middleware.js";
+import postsMiddleware from "../middlewares/posts-middleware.js";
+import usersMiddleware from "../middlewares/users-middleware.js";
+import postsController from "../controllers/posts-controller.js";
 
 const posts = Router();
 
 posts
-  .all("/*", tokenValid)
-  .post("/", validateSchema(postSchema), fetchMetadata, newPost)
-  .get("/", getFollowed, fetchData)
-  .put("/:id", editPost)
-  .delete("/:id", postIdValid, checkUserOwner, deletePost)
-  .get("/user/:id", checkFollow, fetchUserData);
+  .all("/*", authMiddleware.tokenValid)
+  .post("/", validateSchema(postSchema), postsMiddleware.getMetadata, postsController.createPost)
+  .get("/", postsMiddleware.getFollowedUsers, postsController.getPosts)
+  .get("/users/:userId", usersMiddleware.userIdParamValid, postsMiddleware.checkFollow, postsController.getUserPosts)
+  .put("/:postId", postsMiddleware.postIdValid, postsMiddleware.checkIsOwner, postsController.editPost)
+  .delete("/:postId", postsMiddleware.postIdValid, postsMiddleware.checkIsOwner, postsController.deletePost);
 
 export default posts;
 //
