@@ -101,79 +101,60 @@ ou
 
 ## Endpoints* 🛠
 
-**Uma descrição detalhada desssa seção está sendo construída!*
+A documentação completa dos endpoints, incluindo detalhes sobre como usar cada rota, parâmetros e exemplos de resposta, está disponível na [documentação interativa](https://linkr-api-kbny.onrender.com/api/docs/) da API.
 
-🛠 **Os endpoints estão sendo refatorados!**
-
-A API do Linkr possui os seguintes endpoints disponíveis:
+Recomendamos consultar a documentação para obter informações abrangentes sobre os endpoints e aproveitar ao máximo as funcionalidades oferecidas. A seguir estão os endpoints disponíveis nesta API.
 
 ```
-POST /auth
+GET /api/health
+```
+```
+POST /api/auth
+```
+```
+POST /api/users
+```
+```
+*🔐 GET /api/users/search
+```
+```
+*🔐 POST /api/posts
+```
+```
+*🔐 GET /api/posts
+```
+```
+*🔐 GET /api/posts/users/:userId
+```
+```
+*🔐 PUT /api/posts/:postid
+```
+```
+*🔐 DELETE /api/posts/:postId
+```
+```
+*🔐 GET /api/hashtags
+```
+```
+*🔐 GET /api/hashtags/:hashtag
+```
+```
+*🔐 POST /api/comments/:postId
+```
+```
+*🔐 POST /api/likes/:postId
+```
+```
+*🔐 DELETE /api/likes/:postId
+```
+```
+*🔐 POST /api/followers/:userId
+```
+```
+*🔐 DELETE /api/followers/:userId
 ```
 
-```
-POST /users
-```
-
-```
-GET /users/search
-```
-
-```
-POST /posts
-```
-
-```
-GET /posts
-```
-
-```
-GET /posts/users/:id
-```
-
-```
-PUT /posts/:id
-```
-
-```
-DELETE /posts/:id
-```
-
-```
-GET /hashtags
-```
-
-```
-GET /hashtags/:hashtag
-```
-
-```
-POST /comments
-```
-
-```
-GET /comments
-```
-
-```
-POST /likes/:postId
-```
-
-```
-GET /likes/:postId
-```
-
-```
-DELETE /likes/:postId
-```
-
-```
-POST /followers/:userId
-```
-
-```
-DELETE /followers/:userId
-```
+*🔐 *Rotas autenticadas com token JWT fornecido no momento do login!*
 
 ## Contribuição
 
