@@ -17,17 +17,12 @@ async function hashtagsTrending(req, res) {
 }
 
 async function hashtagPosts(req, res) {
-  const { id } = res.locals.hashtagId;
-  const page = req.query.page;
+  const userId = res.locals.user.id;
+  const hashtagId = res.locals.hashtagId.id;
   const offset = req.query.offset;
+  const more = req.query.more;
   try {
-    const hashtagPosts = (await hashtagsRepository.getHashtagPosts(id, page, offset)).rows;
-    if (hashtagPosts.length === 0) {
-      res.status(httpStatus.OK).send({
-        posts: hashtagPosts,
-      });
-      return;
-    }
+    const hashtagPosts = (await hashtagsRepository.getHashtagPosts(userId, hashtagId, offset, more)).rows;
     res.status(httpStatus.OK).send({
       posts: hashtagPosts,
     });

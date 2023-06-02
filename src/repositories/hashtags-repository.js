@@ -62,7 +62,7 @@ async function getHashtagsTrending() {
   );
 }
 
-async function getHashtagPosts(hashtagId, offset, more) {
+async function getHashtagPosts(userId, hashtagId, offset, more) {
   return connectionDB.query(`
     SELECT
       posts.id,
@@ -121,11 +121,20 @@ async function getHashtagPosts(hashtagId, offset, more) {
       ON posts."userId"=users.id
     JOIN "postsHashtags" 
       ON "postsHashtags"."postId"=posts.id
-    WHERE "postsHashtags"."hashtagId"=$1
+    WHERE "postsHashtags"."hashtagId"=$2
     ORDER BY posts."createdAt" DESC 
-    OFFSET $2 
-    LIMIT $3;`,
-    [hashtagId, offset, more],
+    OFFSET $3
+    LIMIT $4;`,
+    [userId, hashtagId, offset, more],
+  );
+}
+
+async function getHashtagId(hashtag) {
+  return connectionDB.query(`
+    SELECT id
+    FROM hashtags
+    WHERE hashtag=$1;`,
+    [hashtag],
   );
 }
 
@@ -134,6 +143,7 @@ const hashtagsRepository = {
   registerPostHashtags,
   getHashtagsTrending,
   getHashtagPosts,
+  getHashtagId,
 };
 
 export default hashtagsRepository;
