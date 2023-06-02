@@ -7,7 +7,7 @@
 ![stars - linkr-api](https://img.shields.io/github/stars/nascimentoliveira/linkr-api?color=007ec6&style=flat-square)
 ![forks - linkr-api](https://img.shields.io/github/forks/nascimentoliveira/linkr-api?color=007ec6&style=flat-square)
 
-# API (Back-end) da Aplicação Linkr
+# API (Back-end) da aplicação **Linkr**
 
 Aqui você encontrará informações sobre a estrutura da API, como executá-la localmente, configurar as dependências e realizar as requisições corretamente.
 
@@ -70,11 +70,11 @@ Siga as etapas abaixo para instalar, configurar e executar a API localmente:
         ```
     - Procure a variável `JWT_SECRET` e defina-a com privada de encriptação. Exemplo:  
         ```bash
-        JWT_SECRET="jwt_secret"
+        JWT_SECRET=jwt_secret
         ```
     - Procure a variável `MODE` e defina-a a string `"prod"` para configurar o acesso remoto ao banco de dados com SSL. Exemplo:  
         ```bash
-        MODE="prod"
+        MODE=prod
         ```
     - Verifique se existem outras variáveis de ambiente necessárias para o funcionamento da aplicação e defina-as de acordo com a sua configuração.
     - Salve o arquivo `.env`.
@@ -99,7 +99,7 @@ ou
   http://localhost:<porta_especificada>/api
   ```
 
-## Endpoints* 🛠
+## Endpoints
 
 A documentação completa dos endpoints, incluindo detalhes sobre como usar cada rota, parâmetros e exemplos de resposta, está disponível na [documentação interativa](https://linkr-api-kbny.onrender.com/api/docs/) da API.
 
@@ -107,6 +107,9 @@ Recomendamos consultar a documentação para obter informações abrangentes sob
 
 ```
 GET /api/health
+```
+```
+GET /api/docs
 ```
 ```
 POST /api/auth
@@ -154,7 +157,7 @@ POST /api/users
 *🔐 DELETE /api/followers/:userId
 ```
 
-*🔐 *Rotas autenticadas com token JWT fornecido no momento do login!*
+*🔐 *Rotas autenticadas com token JWT. Necessário logar na aplicação!*
 
 ## Contribuição
 
