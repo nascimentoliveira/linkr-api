@@ -89,16 +89,15 @@ async function getPosts(req, res) {
 }
 
 async function getUserPosts(req, res) {
-  const user = res.locals.userParam;
+  const userId = res.locals.user.id;
+  const userParam = res.locals.userParam;
   const more = req.query.more;
   const offset = req.query.offset;
   try {
-    const posts = (await postsRepository.getUserPosts(user.id, offset, more)).rows;
+    const posts = (await postsRepository.getUserPosts(userId, userParam.id, offset, more)).rows;
     res.status(httpStatus.OK).send({
       header: {
-        id: user.id,
-        username: user.username,
-        picture: user.picture,
+        ...userParam,
         follows: (res.locals.follows && res.locals.follows.length > 0),
       },
       posts: posts,

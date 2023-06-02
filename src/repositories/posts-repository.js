@@ -161,7 +161,7 @@ async function getMorePosts(userId, lastRefresh) {
   );
 }
 
-async function getUserPosts(userId, offset, more) {
+async function getUserPosts(userId, userParamId, offset, more) {
   return connectionDB.query(`
     SELECT
       posts.id,
@@ -218,12 +218,12 @@ async function getUserPosts(userId, offset, more) {
       ON posts."urlId"=urls.id
     JOIN users 
       ON posts."userId"=users.id
-    WHERE users.id=$1
+    WHERE users.id=$2
     GROUP BY posts.id, users.id, urls.id
     ORDER BY posts."createdAt"
-    OFFSET $2
-    LIMIT $3;`,
-    [userId, offset, more],
+    OFFSET $3
+    LIMIT $4;`,
+    [userId, userParamId, offset, more],
   );
 }
 
