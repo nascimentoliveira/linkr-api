@@ -1,13 +1,19 @@
-import { MESSAGES } from "../constants.js";
+import httpStatus from "http-status";
 
-export default function validateSchema(schema) {
+function schemaValidador(schema) {
   return (req, res, next) => {
     const { error } = schema.validate(req.body, { abortEarly: false });
     if (error) {
       const errors = error.details.map((detail) => detail.message);
-      res.status(422).send({ message: MESSAGES.FORMAT_ERROR, errors: errors });
+      res.status(httpStatus.UNPROCESSABLE_ENTITY).send({
+        error: "Body is not the expected format!",
+        errors: errors,
+      });
       return;
     }
     next();
   };
 }
+
+export default schemaValidador;
+//
