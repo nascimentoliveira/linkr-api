@@ -72,22 +72,22 @@ CREATE TABLE "comments" (
 	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
-ALTER TABLE "sessions" ADD CONSTRAINT "sessions_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id");
+ALTER TABLE "sessions" ADD CONSTRAINT "sessions_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE;
 
-ALTER TABLE "likes" ADD CONSTRAINT "likes_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id");
-ALTER TABLE "likes" ADD CONSTRAINT "likes_fk1" FOREIGN KEY ("postId") REFERENCES "posts"("id");
+ALTER TABLE "likes" ADD CONSTRAINT "likes_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE;
+ALTER TABLE "likes" ADD CONSTRAINT "likes_fk1" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE CASCADE;
 
-ALTER TABLE "posts" ADD CONSTRAINT "posts_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id");
-ALTER TABLE "posts" ADD CONSTRAINT "posts_fk1" FOREIGN KEY ("urlId") REFERENCES "urls"("id");
+ALTER TABLE "posts" ADD CONSTRAINT "posts_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE;
+ALTER TABLE "posts" ADD CONSTRAINT "posts_fk1" FOREIGN KEY ("urlId") REFERENCES "urls"("id") ON DELETE CASCADE;
 
 ALTER TABLE "postsHashtags" ADD CONSTRAINT "postsHashtags_fk0" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE CASCADE;
-ALTER TABLE "postsHashtags" ADD CONSTRAINT "postsHashtags_fk1" FOREIGN KEY ("hashtagId") REFERENCES "hashtags"("id");
+ALTER TABLE "postsHashtags" ADD CONSTRAINT "postsHashtags_fk1" FOREIGN KEY ("hashtagId") REFERENCES "hashtags"("id") ON DELETE CASCADE;
 
 ALTER TABLE "shares" ADD CONSTRAINT "shares_fk0" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE CASCADE;
-ALTER TABLE "shares" ADD CONSTRAINT "shares_fk1" FOREIGN KEY ("userId") REFERENCES "users"("id");
+ALTER TABLE "shares" ADD CONSTRAINT "shares_fk1" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE;
 
-ALTER TABLE "followers" ADD CONSTRAINT "followers_fk0" FOREIGN KEY ("followedId") REFERENCES "users"("id");
-ALTER TABLE "followers" ADD CONSTRAINT "followers_fk1" FOREIGN KEY ("followerId") REFERENCES "users"("id");
+ALTER TABLE "followers" ADD CONSTRAINT "followers_fk0" FOREIGN KEY ("followedId") REFERENCES "users"("id") ON DELETE CASCADE;
+ALTER TABLE "followers" ADD CONSTRAINT "followers_fk1" FOREIGN KEY ("followerId") REFERENCES "users"("id") ON DELETE CASCADE;
 
-ALTER TABLE "comments" ADD CONSTRAINT "comments_fk0" FOREIGN KEY ("postId") REFERENCES "posts"("id");
-ALTER TABLE "comments" ADD CONSTRAINT "comments_fk1" FOREIGN KEY ("userId") REFERENCES "users"("id");
+ALTER TABLE "comments" ADD CONSTRAINT "comments_fk0" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE CASCADE;
+ALTER TABLE "comments" ADD CONSTRAINT "comments_fk1" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE;
