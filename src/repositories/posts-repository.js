@@ -220,7 +220,7 @@ async function getUserPosts(userId, userParamId, offset, more) {
       ON posts."userId"=users.id
     WHERE users.id=$2
     GROUP BY posts.id, users.id, urls.id
-    ORDER BY posts."createdAt"
+    ORDER BY posts."createdAt" DESC
     OFFSET $3
     LIMIT $4;`,
     [userId, userParamId, offset, more],

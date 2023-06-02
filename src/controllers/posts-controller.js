@@ -50,7 +50,7 @@ async function editPost(req, res) {
   try {
     const [newText] = (await postsRepository.editPost(text, postId)).rows;
     res.status(httpStatus.OK).send({
-      newText,
+      ...newText,
       message: "Post edited!"
     });
   } catch (error) {
