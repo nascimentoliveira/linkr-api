@@ -1,7 +1,8 @@
 import joi from "joi";
 
 const commentSchema = joi.object({
-    comment: joi.string().required(),
+  userId: joi.number().positive(),
+  comment: joi.string().required(),
 });
 
 export default commentSchema;
