@@ -28,7 +28,7 @@ async function createPost(req, res) {
   }
 }
 
-async function deletePost(req, res) {
+async function deletePost(_, res) {
   const postId = res.locals.post.id
   try {
     await postsRepository.deletePost(postId);
@@ -76,7 +76,7 @@ async function getPosts(req, res) {
       posts = (await postsRepository.getPosts(userId, offset, more)).rows;
     }
     res.status(httpStatus.OK).send({
-      follow: followedUsers,
+      follows: followedUsers,
       posts,
     });
   } catch (error) {
@@ -97,8 +97,10 @@ async function getUserPosts(req, res) {
     const posts = (await postsRepository.getUserPosts(userId, userParam.id, offset, more)).rows;
     res.status(httpStatus.OK).send({
       header: {
-        ...userParam,
-        follows: (res.locals.follows && res.locals.follows.length > 0),
+        id: userParam.id,
+        username: userParam.username,
+        picture: userParam.picture,
+        follows: res.locals.follows,
       },
       posts: posts,
     });

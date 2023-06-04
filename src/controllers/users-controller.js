@@ -7,7 +7,7 @@ import followersRepository from "../repositories/followers-repository.js";
 
 const ROUNDS_ENCRYPT = 10;
 
-async function createUser(req, res) {
+async function createUser(_, res) {
   const { email, password, username, picture } = res.locals.user;
   try {
     await usersRepository.createUser(
@@ -32,6 +32,12 @@ async function searchUsers(req, res) {
   const username = req.query.username;
   const userId = res.locals.user.id
   try {
+    if (!username) {
+      res.status(httpStatus.BAD_REQUEST).send({
+        error: "The 'username' parameter is mandatory and must be provided in the query with at least 3 characters.",
+      });
+      return;
+    }
     const users = (await usersRepository.searchUser(username)).rows;
     const followerUsers = (await followersRepository.getFollowerUsers(userId)).rows;
     users.sort((a, b) => {

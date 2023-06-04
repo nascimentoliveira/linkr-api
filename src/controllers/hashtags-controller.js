@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 
 import hashtagsRepository from "../repositories/hashtags-repository.js";
 
-async function hashtagsTrending(req, res) {
+async function hashtagsTrending(_, res) {
   try {
     const hashtagsTrending = (await hashtagsRepository.getHashtagsTrending()).rows;
     res.status(httpStatus.OK).send(hashtagsTrending);

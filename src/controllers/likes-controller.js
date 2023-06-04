@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 
 import likesRepository from "../repositories/likes-repository.js";
 
-async function like(req, res) {
+async function like(_, res) {
   const userId = res.locals.user.id;
   const postId = res.locals.post.id;
   try {
@@ -21,7 +21,7 @@ async function like(req, res) {
   }
 }
 
-async function unlike(req, res) {
+async function unlike(_, res) {
   const userId = res.locals.user.id;
   const postId = res.locals.post.id;
   try {
