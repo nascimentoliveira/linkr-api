@@ -17,15 +17,15 @@ export default hashtags;
  * paths:
  *   /api/hashtags:
  *     get:
- *       summary: Obter o ranking com 10 hashtags.
+ *       summary: Get the list of trending hashtags.
  *       tags:
  *         - Hashtags
  *       security:
  *       - bearerAuth: []
- *       description: Retorna as 10 hashtags mais usadas.
+ *       description: Returns the top 10 most used hashtags.
  *       responses:
  *         '200':
- *           description: Sucesso
+ *           description: List of hashtags returned successfully.
  *           content:
  *             application/json:
  *               schema:
@@ -35,82 +35,40 @@ export default hashtags;
  *                   properties:
  *                     id:
  *                       type: integer
- *                       format: int64
- *                       description: ID da hashtag
+ *                       description: Hashtag ID.
  *                     hashtag:
  *                       type: string
- *                       description: Nome da hashtag
- *         '401':
- *           description: Token de acesso ausente ou inválido
+ *                       description: Hashtag name.
+  *         '401':
+ *           description: Missing access token.
  *           content:
  *             application/json:
  *               schema:
  *                 type: object
  *                 properties:
- *                   message:
+ *                   error:
  *                     type: string
- *                     example: Unexpected header format! Field "Authorization" not found.
+ *                     example: Unexpected header format! Field 'Authorization' not found.
+ *         '403':
+ *           description: Operation not allowed.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                     type: string
+ *                     example: Invalid or expired token. Please log into your account again!
  *         '500':
- *           description: Erro interno do servidor
+ *           description: Internal server error.
  *           content:
  *             application/json:
  *               schema:
  *                 type: object
  *                 properties:
- *                   message:
+ *                   error:
  *                    type: string
- *                    example: An internal server error has occurred. Please try again later.
- *   /api/hashtags/:hashtag:
- *     get:
- *       summary: Apaga um link encurtado pelo ID.
- *       tags:
- *         - Hashtags
- *       security:
- *         - bearerAuth: []
- *       parameters:
- *         - name: hashtag
- *           in: path
- *           description: Hashtag a ser buscada.
- *           required: true
- *           schema:
- *             type: string
- *       responses:
- *         '200':
- *           description: Sucesso
- *           content:
- *             application/json:
- *               schema:
- *                 $ref: '#/components/schemas/URLResponseDELETE'
- *         '401':
- *           description: Token de acesso ausente ou inválido
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                     type: string
- *                     example: Unexpected header format! Field "Authorization" not found.
- *         '404':
- *           description: Hashtag não encontrada.
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                     type: string
- *                     example: hashtag not registered!
- *         '500':
- *           description: Erro interno do servidor
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                    type: string
- *                    example: An internal server error has occurred. Please try again later.
+ *                    example: An internal server error occurred. Please try again later.
  * components:
  *   securitySchemes:
  *     bearerAuth:
@@ -119,6 +77,132 @@ export default hashtags;
  *       bearerFormat: JWT
  *   responses:
  *     UnauthorizedError:
- *       description: Token de acesso ausente ou inválido
+ *       description: Access token missing or invalid.
+ */
+
+/**
+ * @swagger
+ * paths:
+ *   /api/hashtags/{hashtag}:
+ *     get:
+ *       summary: Get all posts with the specified hashtag.
+ *       tags:
+ *         - Hashtags
+ *       security:
+ *         - bearerAuth: []
+ *       parameters:
+ *         - name: hashtag
+ *           in: path
+ *           description: The keyword of the hashtag to search for in the posts.
+ *           required: true
+ *           schema:
+ *             type: string
+ *       responses:
+ *         '200':
+ *           description: List of posts returned successfully.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   posts:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                         userId:
+ *                           type: integer
+ *                         username:
+ *                           type: string
+ *                         picture:
+ *                           type: string
+ *                           format: uri
+ *                         text:
+ *                           type: string
+ *                         link:
+ *                           type: object
+ *                           properties:
+ *                             url:
+ *                               type: string
+ *                               format: uri
+ *                             title:
+ *                               type: string
+ *                             image:
+ *                               type: string
+ *                               format: uri
+ *                             description:
+ *                               type: string
+ *                         likes:
+ *                           type: integer
+ *                         liked:
+ *                           type: boolean
+ *                         likers:
+ *                           type: array
+ *                           items:
+ *                             type: string
+ *                         comments:
+ *                           type: array
+ *                           items:
+ *                             type: object
+ *                             properties:
+ *                               id:
+ *                                 type: integer
+ *                               userId:
+ *                                 type: integer
+ *                               username:
+ *                                 type: string
+ *                               text:
+ *                                 type: string
+ *         '400':
+ *           description: Invalid or missing parameters.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                     type: string
+ *                     example: The 'hashtag' parameter is mandatory and must be provided.
+ *         '401':
+ *           description: Missing access token.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                     type: string
+ *                     example: Unexpected header format! Field 'Authorization' not found.
+ *         '403':
+ *           description: Operation not allowed.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                     type: string
+ *                     example: Invalid or expired token. Please log into your account again!
+ *         '500':
+ *           description: Internal server error.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                    type: string
+ *                    example: An internal server error occurred. Please try again later.
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *   responses:
+ *     UnauthorizedError:
+ *       description: Access token missing or invalid.
  */
 //

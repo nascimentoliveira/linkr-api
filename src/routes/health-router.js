@@ -22,33 +22,13 @@ export default health;
  * paths:
  *   /api/health:
  *     get:
- *       summary: Verificar o status da API.
+ *       summary: Check API status.
  *       tags:
  *         - Health
- *       description: Verifica se a API está em execução e o banco de dados está conectado.
+ *       description: Checks if the API is running and the database is connected.
  *       responses:
  *         '200':
- *           description: Sucesso
- *           content:
- *            application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   description:
- *                     type: string
- *                     description: Descrição do status da saúde
- *                   status:
- *                     type: string
- *                     description: Status da saúde do servidor
- *                   database:
- *                     type: string
- *                     description: Status da conexão com o banco de dados
- *                   timestamp:
- *                     type: string
- *                     format: date-time
- *                     description: Timestamp da resposta
- *         '500':
- *           description: Erro interno do servidor
+ *           description: Status checked successfully.
  *           content:
  *             application/json:
  *               schema:
@@ -56,16 +36,36 @@ export default health;
  *                 properties:
  *                   description:
  *                     type: string
- *                     description: Descrição do status da saúde
+ *                     description: API description.
  *                   status:
  *                     type: string
- *                     description: Status da saúde do servidor
+ *                     description: Server health status.
  *                   database:
  *                     type: string
- *                     description: Status da conexão com o banco de dados
+ *                     description: Database connection status.
  *                   timestamp:
  *                     type: string
  *                     format: date-time
- *                     description: Timestamp da resposta
+ *                     description: Response timestamp.
+ *         '500':
+ *           description: Internal server error.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   description:
+ *                     type: string
+ *                     description: API status description.
+ *                   status:
+ *                     type: string
+ *                     description: Server health status.
+ *                   database:
+ *                     type: string
+ *                     description: Database connection status.
+ *                   timestamp:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Response timestamp.
  */
 //

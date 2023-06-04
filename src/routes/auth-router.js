@@ -16,10 +16,10 @@ export default auth;
  * paths:
  *   /api/auth:
  *     post:
- *       summary: Realizar login do usuário.
+ *       summary: User login.
  *       tags:
- *         - Autenticação
- *       description: Esta rota é responsável por autenticar os usuários na aplicação. Ela permite que os usuários realizem o login fornecendo seu email e senha.
+ *         - Authentication
+ *       description: This route is responsible for authenticating users in the application. It allows users to log in by providing their email and password.
  *       requestBody:
  *         required: true
  *         content:
@@ -40,16 +40,13 @@ export default auth;
  *                 - password
  *       responses:
  *         '200':
- *           description: Sucesso
+ *           description: User logged in successfully.
  *           content:
- *            application/json:
+ *             application/json:
  *               schema:
  *                 type: object
  *                 properties:
- *                   token:
- *                     type: string
- *                     example: ef9e3e32-e9c0-4bfe-a407-027b45efd990
- *                   userId:
+ *                   id:
  *                     type: number
  *                   username:
  *                     type: string
@@ -57,122 +54,42 @@ export default auth;
  *                   picture:
  *                     type: string
  *                     example: https://www.image-profile-url.com/user-image-profile
- *         '404':
- *           description: Usuário não cadastrado ou senha inválida.
+ *                   token:
+ *                     type: string
+ *                     example: ef9e3e32-e9c0-4bfe-a407-027b45efd990
+ *         '401':
+ *           description: User not registered or invalid password.
  *           content:
  *             application/json:
  *               schema:
  *                 type: object
  *                 properties:
- *                   message:
+ *                   error:
  *                     type: string
- *                     example: User not registered!
+ *                     example: User not registered or invalid password!
  *         '422':
- *           description: Dados inválidos ou incompletos
+ *           description: Invalid or incomplete data.
  *           content:
  *             application/json:
  *               schema:
  *                 type: object
  *                 properties:
- *                   message:
+ *                   error:
  *                     type: string
- *                     example: Body is not the expected format!
+ *                     example: Body is not in the expected format!
  *                   errors:
  *                     type: array
  *                     items:
- *                       oneOf:
- *                         - type: string
+ *                       type: string
  *         '500':
- *           description: Erro interno do servidor
+ *           description: Internal server error.
  *           content:
  *             application/json:
  *               schema:
  *                 type: object
  *                 properties:
- *                   message:
- *                    type: string
- *                    example: An internal server error has occurred. Please try again later.
+ *                   error:
+ *                     type: string
+ *                     example: An internal server error occurred. Please try again later.
  */
-
-/**
- * @swagger
- * paths:
- *   /api/auth/signup:
- *     post:
- *       summary: Cadastrar novo usuário.
- *       tags:
- *         - Usuários
- *       description: Esta rota é responsável por cadastrar os usuários na aplicação. Ela permite que os usuários utilize a plataforma fornecendo seu email, senha, nome e url da imagem.
- *       requestBody:
- *         required: true
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 email:
- *                   type: string
- *                   format: email
- *                   example: john.doe@example.com
- *                 password:
- *                   type: string
- *                   format: password
- *                   example: password123
- *                 username:
- *                   type: string
- *                   example: John Doe
- *                 picture:
- *                   type: string
- *                   example: https://www.image-profile-url.com/user-image-profile
- *               required:
- *                 - email
- *                 - password
- *                 - username
- *                 - picture
- *       responses:
- *         '201':
- *           description: Usuário cadastrado com sucesso.
- *           content:
- *            application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                     type: string
- *                     example: User successfully created!
- *         '409':
- *           description: Dados inválidos para cadastro de usuário.
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                     type: string
- *                     example: E-mail already registered!
- *         '422':
- *           description: Dados inválidos ou incompletos
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                     type: string
- *                     example: Body is not the expected format!
- *                   errors:
- *                     type: array
- *                     items:
- *                       oneOf:
- *                         - type: string
- *         '500':
- *           description: Erro interno do servidor
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                    type: string
- *                    example: An internal server error has occurred. Please try again later.
- */
+//
