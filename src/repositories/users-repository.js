@@ -2,7 +2,7 @@ import connectionDB from "../database/database.js"
 
 async function getUserById(userId) {
   return connectionDB.query(`
-    SELECT * 
+    SELECT id, username, picture 
     FROM users 
     WHERE id=$1;`,
     [userId],
@@ -11,7 +11,7 @@ async function getUserById(userId) {
 
 async function getUserByEmail(email) {
   return connectionDB.query(`
-    SELECT * 
+    SELECT id, username, picture, password 
     FROM users 
     WHERE email=$1;`,
     [email],

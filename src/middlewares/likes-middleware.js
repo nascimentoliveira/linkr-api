@@ -11,10 +11,13 @@ async function checkLiked(req, res, next) {
       res.status(httpStatus.OK).send({
         message: "Post already liked!",
       });
-    } else if ((req.method === "DELETE" && !like))
+      return;
+    } else if ((req.method === "DELETE" && !like)) {
       res.status(httpStatus.OK).send({
         message: "Post already unliked!",
       });
+      return;
+    }
   } catch (error) {
     /* eslint-disable-next-line no-console */
     console.error(error);

@@ -14,12 +14,13 @@ async function authValid(req, res, next) {
       });
       return;
     }
+    delete user.password;
     res.locals.user = user;
   } catch (error) {
     /* eslint-disable-next-line no-console */
     console.error(error);
     res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
-      error: "An internal server error occurred while validating your credentials. Please try again later.",
+      error: "An internal server error occurred while validating your credentials and creating a new session. Please try again later.",
     });
     return;
   }
@@ -36,20 +37,16 @@ async function tokenValid(req, res, next) {
     return;
   }
   try {
-    const sessionId = jwt.verify(token, process.env.JWT_SECRET, (error, result) => {
+    const [user] = await (jwt.verify(token, process.env.JWT_SECRET, async (error, result) => {
       if (error) {
-        res.status(httpStatus.UNAUTHORIZED).send({
-          error: "Invalid token, enter your account!"
-        });
-        return;
+        return [];
       } else {
-        return result.session.id;
+        return (await usersRepository.getUserBySession(result.session.id)).rows;
       }
-    });
-    const [user] = (await usersRepository.getUserBySession(sessionId)).rows;
+    }));
     if (!user) {
-      res.status(httpStatus.NOT_FOUND).send({
-        error: "User not found, enter your account!",
+      res.status(httpStatus.FORBIDDEN).send({
+        error: "Invalid or expired token. Please log into your account again!",
       });
       return;
     }
