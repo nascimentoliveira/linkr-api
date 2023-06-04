@@ -9,7 +9,7 @@
 
 # API (Back-end) da aplicação **Linkr**
 
-Aqui você encontrará informações sobre a estrutura da API, como executá-la localmente, configurar as dependências e realizar as requisições corretamente.
+Esta é a API do Linkr, uma plataforma de rede social que permite aos usuários postar, compartilhar e descobrir links interessantes. Com o Linkr, os usuários podem criar contas, fazer login e começar a compartilhar seus próprios links junto com uma descrição ou comentário. Além disso, podem explorar e descobrir links compartilhados por outros usuários, seguir perfis de seu interesse e interagir por meio de curtidas e comentários. O Linkr fornece uma maneira fácil e intuitiva para os usuários compartilharem suas descobertas e se conectarem por meio de links relevantes e interessantes. Aqui você encontrará informações sobre a estrutura da API, como executá-la localmente, configurar as dependências e realizar as requisições corretamente.
 
 > O código-fonte do front-end da aplicação está hospedado no GitHub em: [Linkr Front-end](https://github.com/nascimentoliveira/linkr)
 

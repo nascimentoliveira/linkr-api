@@ -6,7 +6,12 @@ const swaggerOptions = {
     info: {
       title: "Linkr-API",
       version: "1.0.0",
-      description: "API de Linkr, uma rede social que permite aos usuários compartilhar e descobrir links interessantes.",
+      description: "This is the Linkr API, a social networking platform that allows users to post, " + 
+      "share, and discover interesting links. With Linkr, users can create accounts, log in, and start " +
+      "sharing their own links along with a description or comment. Additionally, they can explore and " +
+      "discover links shared by other users, follow profiles of interest, and interact through likes and comments. " + 
+      "Linkr provides an easy and intuitive way for users to share their findings and connect through " + 
+      "relevant and interesting links.",
     },
   },
 
