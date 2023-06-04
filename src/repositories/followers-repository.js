@@ -16,7 +16,7 @@ async function unfollow(followedId, followerId) {
   );
 }
 
-async function checkFollow(followedId, followerId) {
+async function checkFollows(followedId, followerId) {
   return connectionDB.query(`
     SELECT users.username, users.picture 
     FROM users 
@@ -36,11 +36,21 @@ async function getFollowedUsers(followerId) {
   );
 }
 
+async function getFollowerUsers(followedId) {
+  return connectionDB.query(`
+    SELECT followers.id 
+    FROM followers 
+    WHERE followers."followedId"=$1;`,
+    [followedId],
+  );
+}
+
 const followersRepository = {
   follow,
   unfollow,
-  checkFollow,
+  checkFollows,
   getFollowedUsers,
+  getFollowerUsers,
 };
 
 export default followersRepository;

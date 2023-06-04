@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 
 import followersRepository from "../repositories/followers-repository.js";
 
-async function follow(req, res) {
+async function follow(_, res) {
   const followerId = res.locals.user.id;
   const followedId = res.locals.userParam.id;
   try {
@@ -20,7 +20,7 @@ async function follow(req, res) {
   return;
 }
 
-async function unfollow(req, res) {
+async function unfollow(_, res) {
   const followerId = res.locals.user.id;
   const followedId = res.locals.userParam.id;
   try {
