@@ -3,12 +3,14 @@ import httpStatus from "http-status";
 import commentsRepository from "../repositories/comments-repository.js";
 
 async function createComment(req, res) {
-  const { userId, comment } = req.body
+  const userId = res.locals.user.id;
   const postId = res.locals.post.id;
+  const { comment } = req.body
   try {
-    const comments = (await commentsRepository.createComment(postId, userId, comment)).rows;
+    await commentsRepository.createComment(postId, userId, comment);
+    const comments = (await commentsRepository.getComments(postId, userId)).rows;
     res.status(httpStatus.CREATED).send({
-      comments: comments,
+      comments,
       message: "Comment created!",
     });
   } catch (error) {
