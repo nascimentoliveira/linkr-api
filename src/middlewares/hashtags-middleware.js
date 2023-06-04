@@ -5,6 +5,12 @@ import hashtagRepository from "../repositories/hashtags-repository.js";
 async function hashtagIsValid(req, res, next) {
   const { hashtag } = req.params;
   try {
+    if (!hashtag) {
+      res.status(httpStatus.BAD_REQUEST).send({
+        error: "The 'hashtag' parameter is mandatory and must be provided.",
+      });
+      return;
+    }
     const [hashtagId] = (await hashtagRepository.getHashtagId(hashtag)).rows;
     if (!hashtagId) {
       res.status(httpStatus.NOT_FOUND).send({

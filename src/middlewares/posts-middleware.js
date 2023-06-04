@@ -22,11 +22,11 @@ async function getMetadata(req, res, next) {
   next();
 }
 
-async function checkFollow(req, res, next) {
+async function checkFollow(_, res, next) {
   const followerId = res.locals.user.id;
   const followedId = res.locals.userParam.id;
   try {
-    const [follows] = (await followersRepository.checkFollow(followedId, followerId)).rows;
+    const follows = ((await followersRepository.checkFollows(followedId, followerId)).rowCount > 0);
     res.locals.follows = follows;
   } catch (error) {
     /* eslint-disable-next-line no-console */
@@ -39,10 +39,10 @@ async function checkFollow(req, res, next) {
   next();
 }
 
-async function getFollowedUsers(req, res, next) {
+async function getFollowedUsers(_, res, next) {
   const userId = res.locals.user.id;
   try {
-    const followedUsers = (await followersRepository.getFollowedUsers(userId)).rowCount;
+    const followedUsers = ((await followersRepository.getFollowedUsers(userId)).rowCount > 0);
     res.locals.followedUsers = followedUsers;
   } catch (error) {
     /* eslint-disable-next-line no-console */
@@ -58,10 +58,16 @@ async function getFollowedUsers(req, res, next) {
 async function postIdValid(req, res, next) {
   const { postId } = req.params;
   try {
+    if (!postId) {
+      res.status(httpStatus.BAD_REQUEST).send({
+        error: "The 'postId' parameter is mandatory and must be provided.",
+      });
+      return;
+    }
     const [post] = (await postsRepository.getPostById(postId)).rows;
     if (!post) {
       res.status(httpStatus.NOT_FOUND).send({
-        error: "Unregistered post!",
+        error: "The post specified in the parameter was not found!",
       });
       return;
     }
@@ -77,15 +83,15 @@ async function postIdValid(req, res, next) {
   next();
 }
 
-async function checkIsOwner(req, res, next) {
+async function checkIsOwner(_, res, next) {
   const userId = res.locals.post.userId;
   const id = res.locals.user.id;
   if (userId !== id) {
-    res.status(httpStatus.UNAUTHORIZED).send({
-      error: "Operation not allowed!",
+    res.status(httpStatus.FORBIDDEN).send({
+      error: "Operation not allowed. You are not the owner of this post!",
     });
     return;
-  }
+  } 
   next();
 }
 

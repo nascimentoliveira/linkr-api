@@ -27,10 +27,16 @@ async function emailIsValid(req, res, next) {
 async function userIdParamValid(req, res, next) {
   const { userId } = req.params;
   try {
+    if (!userId) {
+      res.status(httpStatus.BAD_REQUEST).send({
+        error: "The 'userId' parameter is mandatory and must be provided.",
+      });
+      return;
+    }
     const [userParam] = (await usersRepository.getUserById(userId)).rows;
     if (!userParam) {
       res.status(httpStatus.NOT_FOUND).send({
-        error: "User selected as parameter not found!",
+        error: "The user specified in the parameter was not found!",
       });
       return;
     }
